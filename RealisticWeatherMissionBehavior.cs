@@ -35,34 +35,45 @@ namespace RealisticWeather
                 bool hasDust = false;
                 if (gameType is Campaign)
                 {
-                    float rainChance = 0.1f;
-                    float fogChance = 0.1f;
-                    float dustChance = 0f;
+                    RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
+                    float rainChance;
+                    float fogChance;
+                    float dustChance;
                     switch (Mission.TerrainType)
                     {
                         case TerrainType.Forest:
-                            rainChance = 0.2f;
-                            break;
-                        case TerrainType.ShallowRiver:
-                            fogChance = 0.2f;
+                            rainChance = settings.ForestRainChance;
+                            fogChance = settings.ForestFogChance;
+                            dustChance = settings.ForestDustChance;
                             break;
                         case TerrainType.Steppe:
-                            rainChance = 0.05f;
-                            fogChance = 0.05f;
+                            rainChance = settings.SteppeRainChance;
+                            fogChance = settings.SteppeFogChance;
+                            dustChance = settings.SteppeDustChance;
                             break;
                         case TerrainType.Desert:
-                            rainChance = 0.01f;
-                            fogChance = 0f;
-                            dustChance = 0.1f;
+                            rainChance = settings.DesertRainChance;
+                            fogChance = settings.DesertFogChance;
+                            dustChance = settings.DesertDustChance;
+                            break;
+                        case TerrainType.ShallowRiver:
+                            rainChance = settings.RiverRainChance;
+                            fogChance = settings.RiverFogChance;
+                            dustChance = settings.RiverDustChance;
+                            break;
+                        default:
+                            rainChance = settings.OtherRainChance;
+                            fogChance = settings.OtherFogChance;
+                            dustChance = settings.OtherDustChance;
                             break;
                     }
                     if (rainChance > MBRandom.RandomFloat)
                     {
-                        rainDensity = Mission.TerrainType != TerrainType.Desert ? MBRandom.RandomFloatRanged(0.25f, 1f) : 1f;
+                        rainDensity = !settings.ShouldOverrideRainDensity ? (Mission.TerrainType != TerrainType.Desert ? MBRandom.RandomFloatRanged(0.25f, 1f) : 1f) : settings.OverriddenRainDensity;
                     }
                     if (fogChance > MBRandom.RandomFloat)
                     {
-                        fogDensity = MBRandom.RandomFloatRanged(0.125f, 1f) * 64;
+                        fogDensity = !settings.ShouldOverrideFogDensity ? MBRandom.RandomFloatRanged(0.125f, 1f) * 64 : settings.OverriddenFogDensity;
                     }
                     hasDust = dustChance > MBRandom.RandomFloat;
                 }

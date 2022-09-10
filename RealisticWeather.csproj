@@ -38,6 +38,9 @@
     <Reference Include="Bannerlord.UIExtenderEx">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.UIExtenderEx\bin\Win64_Shipping_Client\Bannerlord.UIExtenderEx.dll</HintPath>
     </Reference>
+    <Reference Include="MCMv4">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCMv4.dll</HintPath>
+    </Reference>
     <Reference Include="SandBox">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
     </Reference>
@@ -81,6 +84,7 @@
   <ItemGroup>
     <Compile Include="RealisticWeatherMissionBehavior.cs" />
     <Compile Include="RealisticWeatherPostureLogic.cs" />
+    <Compile Include="RealisticWeatherSettings.cs" />
     <Compile Include="ViewModels\FogDensityItemVM.cs" />
     <Compile Include="ViewModels\RainDensityItemVM.cs" />
     <Compile Include="GameModels\RealisticWeatherAgentStatCalculateModel.cs" />
