@@ -11,6 +11,8 @@ namespace RealisticWeather
     public class RealisticWeatherMissionBehavior : MissionBehavior
     {
         private bool _hasSetSkyboxAndParticles;
+        private SoundEvent _rainSound;
+        private SoundEvent _windSound;
         private SoundEvent _dustSound;
 
         public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
@@ -119,6 +121,7 @@ namespace RealisticWeather
         // Change the skybox texture to an overcast sky.
         // Multiply the rain particle emission rate according to rain density.
         // Add copies of the background rain mesh to the scene according to rain density.
+        // Play the rain ambient sound if there is rain.
         public override void OnMissionTick(float dt)
         {
             if (!_hasSetSkyboxAndParticles)
@@ -149,12 +152,45 @@ namespace RealisticWeather
                             }
                         }
                     }
+                    if (rainPrefab.Name != "snow_prefab_entity")
+                    {
+                        if (rainDensity >= 0.25f && rainDensity < 0.5f)
+                        {
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("rain_light"), scene);
+                        }
+                        else if (rainDensity >= 0.5f && rainDensity < 0.75f)
+                        {
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("rain_moderate"), scene);
+                        }
+                        else if (rainDensity >= 0.75f)
+                        {
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("rain_heavy"), scene);
+                        }
+                    }
+                    else
+                    {
+                        if (rainDensity >= 0.25f)
+                        {
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("event:/mission/ambient/area/winter"), scene);
+                        }
+                        if (rainDensity >= 0.75f)
+                        {
+                            _windSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("event:/mission/ambient/detail/wind_howl"), scene);
+                        }
+                    }
+                    _rainSound?.Play();
+                    _windSound?.Play();
                     _hasSetSkyboxAndParticles = true;
                 }
             }
         }
 
-        // Stop the dust storm ambient sound.
-        public override void HandleOnCloseMission() => _dustSound?.Stop();
+        // Stop the ambient sounds.
+        public override void HandleOnCloseMission()
+        {
+            _rainSound?.Stop();
+            _windSound?.Stop();
+            _dustSound?.Stop();
+        }
     }
 }

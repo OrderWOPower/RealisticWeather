@@ -5,7 +5,9 @@ namespace RealisticWeather
 {
     public static class RealisticWeatherHelper
     {
-        public static float GetRainEffectOnSpeed(float rainDensity) => 1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnSpeedMultiplier / 4);
+        public static float GetRainEffectOnMovementSpeed(float rainDensity) => 1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMovementSpeedMultiplier / 4);
+
+        public static float GetRainEffectOnProjectileSpeed(float rainDensity) => 1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnProjectileSpeedMultiplier / 4);
 
         public static float GetRainEffectOnMorale(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMoraleMultiplier), 0f);
 
@@ -15,7 +17,9 @@ namespace RealisticWeather
 
         public static float GetFogEffectOnMorale(float fogDensity) => MathF.Max(1 - (fogDensity * RealisticWeatherSettings.Instance.FogEffectOnMoraleMultiplier / 64), 0f);
 
-        public static float GetDustEffectOnSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOnSpeedMultiplier / 4) : 1;
+        public static float GetDustEffectOnMovementSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOnMovementSpeedMultiplier / 4) : 1;
+
+        public static float GetDustEffectOnProjectileSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOProjectileSpeedMultiplier / 4) : 1;
 
         public static float GetDustEffectOnShootFreq(bool hasDust) => hasDust ? 1 / (64 * RealisticWeatherSettings.Instance.DustEffectOnShootFreqMultiplier) : 1;
 
@@ -32,13 +36,13 @@ namespace RealisticWeather
         {
             if (!agent.IsHuman)
             {
-                agentDrivenProperties.MountSpeed *= GetRainEffectOnSpeed(rainDensity);
-                agentDrivenProperties.MountSpeed *= GetDustEffectOnSpeed(hasDust);
+                agentDrivenProperties.MountSpeed *= GetRainEffectOnMovementSpeed(rainDensity);
+                agentDrivenProperties.MountSpeed *= GetDustEffectOnMovementSpeed(hasDust);
             }
             else
             {
-                agentDrivenProperties.MaxSpeedMultiplier *= GetRainEffectOnSpeed(rainDensity);
-                agentDrivenProperties.MaxSpeedMultiplier *= GetDustEffectOnSpeed(hasDust);
+                agentDrivenProperties.MaxSpeedMultiplier *= GetRainEffectOnMovementSpeed(rainDensity);
+                agentDrivenProperties.MaxSpeedMultiplier *= GetDustEffectOnMovementSpeed(hasDust);
                 agentDrivenProperties.AiShootFreq *= GetFogEffectOnShootFreq(fogDensity);
                 agentDrivenProperties.AiShootFreq *= GetDustEffectOnShootFreq(hasDust);
                 agentDrivenProperties.AiShooterError *= GetDustEffectOnShooterError(hasDust);
