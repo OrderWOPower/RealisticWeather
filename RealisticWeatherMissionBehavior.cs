@@ -175,7 +175,7 @@ namespace RealisticWeather
                         }
                         if (rainDensity >= 0.75f)
                         {
-                            _windSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("event:/mission/ambient/detail/wind_howl"), scene);
+                            _windSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("wind"), scene);
                         }
                     }
                     _rainSound?.Play();
