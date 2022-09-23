@@ -12,7 +12,6 @@ namespace RealisticWeather
     {
         private bool _hasSetSkyboxAndParticles;
         private SoundEvent _rainSound;
-        private SoundEvent _windSound;
         private SoundEvent _dustSound;
 
         public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
@@ -169,17 +168,20 @@ namespace RealisticWeather
                     }
                     else
                     {
-                        if (rainDensity >= 0.25f)
+                        if (rainDensity >= 0.25f && rainDensity < 0.5f)
                         {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("event:/mission/ambient/area/winter"), scene);
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("snow_light"), scene);
                         }
-                        if (rainDensity >= 0.75f)
+                        else if (rainDensity >= 0.5f && rainDensity < 0.75f)
                         {
-                            _windSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("wind"), scene);
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("snow_moderate"), scene);
+                        }
+                        else if (rainDensity >= 0.75f)
+                        {
+                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("snow_heavy"), scene);
                         }
                     }
                     _rainSound?.Play();
-                    _windSound?.Play();
                     _hasSetSkyboxAndParticles = true;
                 }
             }
@@ -189,7 +191,6 @@ namespace RealisticWeather
         public override void HandleOnCloseMission()
         {
             _rainSound?.Stop();
-            _windSound?.Stop();
             _dustSound?.Stop();
         }
     }
