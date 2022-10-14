@@ -132,6 +132,7 @@ namespace RealisticWeather
                 float rainDensity = scene.GetRainDensity();
                 if (rainDensity > 0f && rainPrefab != null)
                 {
+                    bool isWinter = rainPrefab.Name == "snow_prefab_entity";
                     skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
                     skyboxMesh.SetMaterial(skyboxMaterial);
                     foreach (GameEntity entity in rainPrefab.GetChildren())
@@ -151,35 +152,17 @@ namespace RealisticWeather
                             }
                         }
                     }
-                    if (rainPrefab.Name != "snow_prefab_entity")
+                    if (rainDensity >= 0.25f && rainDensity < 0.5f)
                     {
-                        if (rainDensity >= 0.25f && rainDensity < 0.5f)
-                        {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("rain_light"), scene);
-                        }
-                        else if (rainDensity >= 0.5f && rainDensity < 0.75f)
-                        {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("rain_moderate"), scene);
-                        }
-                        else if (rainDensity >= 0.75f)
-                        {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("rain_heavy"), scene);
-                        }
+                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_light" : "snow_light"), scene);
                     }
-                    else
+                    else if (rainDensity >= 0.5f && rainDensity < 0.75f)
                     {
-                        if (rainDensity >= 0.25f && rainDensity < 0.5f)
-                        {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("snow_light"), scene);
-                        }
-                        else if (rainDensity >= 0.5f && rainDensity < 0.75f)
-                        {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("snow_moderate"), scene);
-                        }
-                        else if (rainDensity >= 0.75f)
-                        {
-                            _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("snow_heavy"), scene);
-                        }
+                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_moderate" : "snow_moderate"), scene);
+                    }
+                    else if (rainDensity >= 0.75f)
+                    {
+                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_heavy" : "snow_heavy"), scene);
                     }
                     _rainSound?.Play();
                     _hasSetSkyboxAndParticles = true;
