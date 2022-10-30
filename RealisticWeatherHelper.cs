@@ -13,7 +13,7 @@ namespace RealisticWeather
 
         public static float GetRainEffectOnPosture(float rainDensity) => 1 + (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnPostureMultiplier);
 
-        public static float GetFogEffectOnShootFreq(float fogDensity) => (MathF.Log(fogDensity, 2) * RealisticWeatherSettings.Instance.FogEffectOnShootFreqMultiplier) + 1;
+        public static float GetFogEffectOnShootFreq(float fogDensity) => 1 + (MathF.Log(fogDensity, 2) * RealisticWeatherSettings.Instance.FogEffectOnShootFreqMultiplier * 4);
 
         public static float GetFogEffectOnMorale(float fogDensity) => MathF.Max(1 - (fogDensity * RealisticWeatherSettings.Instance.FogEffectOnMoraleMultiplier / 64), 0f);
 
@@ -21,7 +21,7 @@ namespace RealisticWeather
 
         public static float GetDustEffectOnProjectileSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOProjectileSpeedMultiplier / 4) : 1;
 
-        public static float GetDustEffectOnShootFreq(bool hasDust) => hasDust ? (MathF.Log(64, 2) * RealisticWeatherSettings.Instance.DustEffectOnShootFreqMultiplier) + 1 : 1;
+        public static float GetDustEffectOnShootFreq(bool hasDust) => hasDust ? 1 + (MathF.Log(64, 2) * RealisticWeatherSettings.Instance.DustEffectOnShootFreqMultiplier * 4) : 1;
 
         public static float GetDustEffectOnShooterError(bool hasDust) => hasDust ? 1 + RealisticWeatherSettings.Instance.DustEffectOnShooterErrorMultiplier : 1;
 

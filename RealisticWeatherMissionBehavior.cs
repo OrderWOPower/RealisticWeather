@@ -111,7 +111,10 @@ namespace RealisticWeather
                         _dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
                         _dustSound.Play();
                     }
-                    catch (Exception) { }
+                    catch (Exception)
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage("Error generating dust storm!"));
+                    }
                 }
             }
             _hasSetSkyboxAndParticles = false;
