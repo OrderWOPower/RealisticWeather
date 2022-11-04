@@ -10,7 +10,7 @@ namespace RealisticWeather
 {
     public class RealisticWeatherMissionBehavior : MissionBehavior
     {
-        private bool _hasSetSkyboxAndParticles;
+        private bool _hasTicked;
         private SoundEvent _rainSound;
         private SoundEvent _dustSound;
 
@@ -117,7 +117,7 @@ namespace RealisticWeather
                     }
                 }
             }
-            _hasSetSkyboxAndParticles = false;
+            _hasTicked = false;
         }
 
         // Change the skybox texture to an overcast sky.
@@ -126,7 +126,7 @@ namespace RealisticWeather
         // Play the rain ambient sound if there is rain.
         public override void OnMissionTick(float dt)
         {
-            if (!_hasSetSkyboxAndParticles)
+            if (!_hasTicked)
             {
                 Scene scene = Mission.Scene;
                 Mesh skyboxMesh = scene.GetFirstEntityWithName("__skybox__").GetFirstMesh();
@@ -168,8 +168,8 @@ namespace RealisticWeather
                         _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_heavy" : "snow_heavy"), scene);
                     }
                     _rainSound?.Play();
-                    _hasSetSkyboxAndParticles = true;
                 }
+                _hasTicked = true;
             }
         }
 
