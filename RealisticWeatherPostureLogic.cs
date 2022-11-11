@@ -9,7 +9,7 @@ namespace RealisticWeather
         private static void Postfix(ref float __result)
         {
             Scene scene = Mission.Current.Scene;
-            __result *= RealisticWeatherHelper.GetRainEffectOnPosture(scene.GetRainDensity()) * RealisticWeatherHelper.GetDustEffectOnPosture(scene.GetFirstEntityWithName("dust_prefab_entity") != null);
+            __result *= RealisticWeatherHelper.GetRainEffectOnPosture(scene.GetRainDensity()) * RealisticWeatherHelper.GetDustEffectOnPosture(scene.FindEntityWithName("dust_prefab_entity") != null);
         }
     }
 }
