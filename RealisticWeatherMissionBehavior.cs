@@ -149,7 +149,10 @@ namespace RealisticWeather
                             for (int i = 1; i < (4 * (rainDensity / 0.25f)) - 3; i++)
                             {
                                 GameEntity rain = GameEntity.CopyFromPrefab(entity);
-                                MatrixFrame rainFrame = new MatrixFrame(rain.GetFrame().rotation, rain.GetFrame().origin + new Vec3(MBRandom.RandomFloat * 10, MBRandom.RandomFloat * 10, MBRandom.RandomFloat * 10));
+                                MatrixFrame rainFrame = rain.GetFrame();
+                                rainFrame.Advance(MBRandom.RandomFloat * 10);
+                                rainFrame.Elevate(MBRandom.RandomFloat * 10);
+                                rainFrame.Strafe(MBRandom.RandomFloat * 10);
                                 rain.SetFrame(ref rainFrame);
                                 rainPrefab.AddChild(rain);
                             }

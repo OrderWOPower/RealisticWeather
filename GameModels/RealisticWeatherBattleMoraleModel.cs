@@ -12,7 +12,7 @@ namespace RealisticWeather.GameModels
             public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)
             {
                 Scene scene = Mission.Current.Scene;
-                return base.GetEffectiveInitialMorale(agent, baseMorale) * RealisticWeatherHelper.GetRainEffectOnMorale(scene.GetRainDensity()) * RealisticWeatherHelper.GetFogEffectOnMorale(scene.GetFog() * RealisticWeatherHelper.GetDustEffectOnMorale(scene.GetFirstEntityWithName("dust_prefab_entity") != null));
+                return base.GetEffectiveInitialMorale(agent, baseMorale) * RealisticWeatherHelper.GetRainEffectOnMorale(scene.GetRainDensity()) * RealisticWeatherHelper.GetFogEffectOnMorale(scene.GetFog() * RealisticWeatherHelper.GetDustEffectOnMorale(scene.FindEntityWithName("dust_prefab_entity") != null));
             }
         }
 
@@ -22,7 +22,7 @@ namespace RealisticWeather.GameModels
             public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)
             {
                 Scene scene = Mission.Current.Scene;
-                return base.GetEffectiveInitialMorale(agent, baseMorale) * RealisticWeatherHelper.GetRainEffectOnMorale(scene.GetRainDensity()) * RealisticWeatherHelper.GetFogEffectOnMorale(scene.GetFog() * RealisticWeatherHelper.GetDustEffectOnMorale(scene.GetFirstEntityWithName("dust_prefab_entity") != null));
+                return base.GetEffectiveInitialMorale(agent, baseMorale) * RealisticWeatherHelper.GetRainEffectOnMorale(scene.GetRainDensity()) * RealisticWeatherHelper.GetFogEffectOnMorale(scene.GetFog() * RealisticWeatherHelper.GetDustEffectOnMorale(scene.FindEntityWithName("dust_prefab_entity") != null));
             }
         }
     }
