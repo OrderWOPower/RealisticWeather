@@ -12,7 +12,7 @@ namespace RealisticWeather.GameModels
             {
                 base.UpdateAgentStats(agent, agentDrivenProperties);
                 Scene scene = Mission.Current.Scene;
-                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), scene.FindEntityWithName("dust_prefab_entity") != null);
+                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherMission.HasDust);
             }
         }
 
@@ -22,7 +22,7 @@ namespace RealisticWeather.GameModels
             {
                 base.UpdateAgentStats(agent, agentDrivenProperties);
                 Scene scene = Mission.Current.Scene;
-                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), scene.FindEntityWithName("dust_prefab_entity") != null);
+                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherMission.HasDust);
             }
         }
     }
