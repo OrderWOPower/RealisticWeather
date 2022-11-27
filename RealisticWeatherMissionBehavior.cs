@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SandBox.Missions.MissionLogics.Arena;
+using SandBox.Tournaments.MissionLogics;
+using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -34,6 +36,7 @@ namespace RealisticWeather
                 float rainDensity = 0f;
                 float fogDensity = 1f;
                 bool hasDust = false;
+                bool isArenaMission = Mission.HasMissionBehavior<TournamentBehavior>() || Mission.HasMissionBehavior<ArenaPracticeFightMissionController>();
                 if (gameType is Campaign)
                 {
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
@@ -68,15 +71,15 @@ namespace RealisticWeather
                             dustChance = settings.OtherDustChance;
                             break;
                     }
-                    if (rainChance > MBRandom.RandomFloat)
+                    if (rainChance > MBRandom.RandomFloat && (!isArenaMission || (isArenaMission && settings.CanArenaHaveRain)))
                     {
                         rainDensity = !settings.ShouldOverrideRainDensity ? (Mission.TerrainType != TerrainType.Desert ? MBRandom.RandomFloatRanged(0.25f, 1f) : 1f) : settings.OverriddenRainDensity;
                     }
-                    if (fogChance > MBRandom.RandomFloat)
+                    if (fogChance > MBRandom.RandomFloat && (!isArenaMission || (isArenaMission && settings.CanArenaHaveFog)))
                     {
                         fogDensity = !settings.ShouldOverrideFogDensity ? MBRandom.RandomFloatRanged(0.125f, 1f) * 64 : settings.OverriddenFogDensity;
                     }
-                    hasDust = dustChance > MBRandom.RandomFloat;
+                    hasDust = dustChance > MBRandom.RandomFloat && (!isArenaMission || (isArenaMission && settings.CanArenaHaveDust));
                 }
                 else if (gameType is CustomGame)
                 {
@@ -100,7 +103,7 @@ namespace RealisticWeather
                     Vec3 fogColor = new Vec3(1, 1, 1, 1);
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, 0.1f, 0);
+                    scene.SetFogAdvanced(0, 0, -25);
                 }
                 if (hasDust && rainDensity == 0f)
                 {
@@ -129,7 +132,7 @@ namespace RealisticWeather
             if (!_hasTicked)
             {
                 Scene scene = Mission.Scene;
-                Mesh skyboxMesh = scene.GetFirstEntityWithName("__skybox__").GetFirstMesh();
+                Mesh skyboxMesh = scene.GetSkyboxMesh();
                 Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
                 GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
                 float rainDensity = scene.GetRainDensity();
