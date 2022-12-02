@@ -30,6 +30,8 @@ namespace RealisticWeather
         public override void AfterStart()
         {
             Scene scene = Mission.Scene;
+            _hasTicked = false;
+            RealisticWeatherMission.HasDust = false;
             if (!scene.IsAtmosphereIndoor)
             {
                 GameType gameType = Game.Current.GameType;
@@ -113,6 +115,7 @@ namespace RealisticWeather
                         scene.SetSkyBrightness(scene.TimeOfDay < 12 ? ((MathF.Pow(2, scene.TimeOfDay) - 1) / 10) : ((MathF.Pow(2, 24 - scene.TimeOfDay) - 1) / 10));
                         _dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
                         _dustSound.Play();
+                        RealisticWeatherMission.HasDust = true;
                     }
                     catch (Exception)
                     {
@@ -120,7 +123,6 @@ namespace RealisticWeather
                     }
                 }
             }
-            _hasTicked = false;
         }
 
         // Change the skybox texture to an overcast sky.
