@@ -30,8 +30,10 @@ namespace RealisticWeather
         public override void AfterStart()
         {
             Scene scene = Mission.Scene;
+            RealisticWeatherManager manager = RealisticWeatherManager.Current;
+            manager.SetFogDensity(1f);
+            manager.SetDust(false);
             _hasTicked = false;
-            RealisticWeatherMission.HasDust = false;
             if (!scene.IsAtmosphereIndoor)
             {
                 GameType gameType = Game.Current.GameType;
@@ -106,6 +108,7 @@ namespace RealisticWeather
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
                     scene.SetFogAdvanced(0, 0, -25);
+                    manager.SetFogDensity(fogDensity);
                 }
                 if (hasDust && rainDensity == 0f)
                 {
@@ -115,7 +118,7 @@ namespace RealisticWeather
                         scene.SetSkyBrightness(scene.TimeOfDay < 12 ? ((MathF.Pow(2, scene.TimeOfDay) - 1) / 10) : ((MathF.Pow(2, 24 - scene.TimeOfDay) - 1) / 10));
                         _dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
                         _dustSound.Play();
-                        RealisticWeatherMission.HasDust = true;
+                        manager.SetDust(true);
                     }
                     catch (Exception)
                     {

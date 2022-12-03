@@ -1,5 +1,4 @@
 ﻿using SandBox.GameComponents;
-using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
 namespace RealisticWeather.GameModels
@@ -11,8 +10,7 @@ namespace RealisticWeather.GameModels
             public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
             {
                 base.UpdateAgentStats(agent, agentDrivenProperties);
-                Scene scene = Mission.Current.Scene;
-                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherMission.HasDust);
+                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, Mission.Current.Scene.GetRainDensity(), RealisticWeatherManager.Current.FogDensity, RealisticWeatherManager.Current.HasDust);
             }
         }
 
@@ -21,8 +19,7 @@ namespace RealisticWeather.GameModels
             public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
             {
                 base.UpdateAgentStats(agent, agentDrivenProperties);
-                Scene scene = Mission.Current.Scene;
-                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherMission.HasDust);
+                RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, Mission.Current.Scene.GetRainDensity(), RealisticWeatherManager.Current.FogDensity, RealisticWeatherManager.Current.HasDust);
             }
         }
     }

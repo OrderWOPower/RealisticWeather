@@ -15,7 +15,7 @@ namespace RealisticWeather
 
         public static float GetFogEffectOnShootFreq(float fogDensity) => 1 + (MathF.Log(fogDensity, 2) * RealisticWeatherSettings.Instance.FogEffectOnShootFreqMultiplier * 2);
 
-        public static float GetFogEffectOnMorale(float fogDensity) => MathF.Max(1 - (fogDensity > 1 ? fogDensity : 0 * RealisticWeatherSettings.Instance.FogEffectOnMoraleMultiplier / 64), 0f);
+        public static float GetFogEffectOnMorale(float fogDensity) => MathF.Max(1 - ((fogDensity > 1 ? fogDensity : 0) * RealisticWeatherSettings.Instance.FogEffectOnMoraleMultiplier / 64), 0f);
 
         public static float GetDustEffectOnMovementSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOnMovementSpeedMultiplier / 4) : 1;
 

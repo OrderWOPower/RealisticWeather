@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RealisticWeatherManager.cs" />
     <Compile Include="RealisticWeatherMissionBehavior.cs" />
     <Compile Include="RealisticWeatherPostureLogic.cs" />
     <Compile Include="RealisticWeatherSettings.cs" />
