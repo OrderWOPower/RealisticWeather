@@ -31,7 +31,6 @@ namespace RealisticWeather
         {
             Scene scene = Mission.Scene;
             RealisticWeatherManager manager = RealisticWeatherManager.Current;
-            manager.SetFogDensity(1f);
             manager.SetDust(false);
             _hasTicked = false;
             if (!scene.IsAtmosphereIndoor)
@@ -108,7 +107,6 @@ namespace RealisticWeather
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
                     scene.SetFogAdvanced(0, 0, -25);
-                    manager.SetFogDensity(fogDensity);
                 }
                 if (hasDust && rainDensity == 0f)
                 {
