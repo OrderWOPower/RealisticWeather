@@ -6,7 +6,7 @@ namespace RealisticWeather.GameModels
 {
     public class RealisticWeatherBattleMoraleModel
     {
-        public class CustomBattleModel : CustomBattleMoraleModel
+        public class RealisticWeatherCustomBattleMoraleModel : CustomBattleMoraleModel
         {
             // Decrease morale in Custom Battle missions according to rain density, fog density and dust.
             public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)
@@ -16,7 +16,7 @@ namespace RealisticWeather.GameModels
             }
         }
 
-        public class SandboxModel : SandboxBattleMoraleModel
+        public class RealisticWeatherSandboxBattleMoraleModel : SandboxBattleMoraleModel
         {
             // Decrease morale in Sandbox missions according to rain density, fog density and dust.
             public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)

@@ -2,6 +2,7 @@
 using HarmonyLib;
 using RealisticWeather.GameModels;
 using System;
+using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -27,6 +28,7 @@ namespace RealisticWeather
         // Check whether RBM is loaded.
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
+            AgentStatCalculateModel agentStatCalculateModel = (AgentStatCalculateModel)gameStarter.Models.ToList().FindLast(model => model is AgentStatCalculateModel);
             _postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
             if (_postureLogic != null)
             {
@@ -35,13 +37,13 @@ namespace RealisticWeather
             }
             if (game.GameType is CustomGame)
             {
-                gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel.CustomBattleModel());
-                gameStarter.AddModel(new RealisticWeatherBattleMoraleModel.CustomBattleModel());
+                gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel.RealisticWeatherCustomBattleAgentStatCalculateModel(agentStatCalculateModel));
+                gameStarter.AddModel(new RealisticWeatherBattleMoraleModel.RealisticWeatherCustomBattleMoraleModel());
             }
             else if (game.GameType is Campaign)
             {
-                gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel.SandboxModel());
-                gameStarter.AddModel(new RealisticWeatherBattleMoraleModel.SandboxModel());
+                gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel.RealisticWeatherSandboxAgentStatCalculateModel(agentStatCalculateModel));
+                gameStarter.AddModel(new RealisticWeatherBattleMoraleModel.RealisticWeatherSandboxBattleMoraleModel());
             }
         }
 
