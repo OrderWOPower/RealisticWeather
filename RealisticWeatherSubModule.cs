@@ -2,11 +2,11 @@
 using HarmonyLib;
 using RealisticWeather.GameModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.CustomBattle;
+using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace RealisticWeather
 {
@@ -28,22 +28,14 @@ namespace RealisticWeather
         // Check whether RBM is loaded.
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
-            AgentStatCalculateModel agentStatCalculateModel = (AgentStatCalculateModel)gameStarter.Models.ToList().FindLast(model => model is AgentStatCalculateModel);
+            List<GameModel> models = gameStarter.Models.ToList();
+            gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel((AgentStatCalculateModel)models.FindLast(model => model is AgentStatCalculateModel)));
+            gameStarter.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)models.FindLast(model => model is BattleMoraleModel)));
             _postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
             if (_postureLogic != null)
             {
                 _harmony.Patch(AccessTools.Method(_postureLogic, "calculateDefenderPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
                 _harmony.Patch(AccessTools.Method(_postureLogic, "calculateAttackerPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
-            }
-            if (game.GameType is CustomGame)
-            {
-                gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel.RealisticWeatherCustomBattleAgentStatCalculateModel(agentStatCalculateModel));
-                gameStarter.AddModel(new RealisticWeatherBattleMoraleModel.RealisticWeatherCustomBattleMoraleModel());
-            }
-            else if (game.GameType is Campaign)
-            {
-                gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel.RealisticWeatherSandboxAgentStatCalculateModel(agentStatCalculateModel));
-                gameStarter.AddModel(new RealisticWeatherBattleMoraleModel.RealisticWeatherSandboxBattleMoraleModel());
             }
         }
 
