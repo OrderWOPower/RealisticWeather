@@ -152,15 +152,15 @@ namespace RealisticWeather
                         }
                         else
                         {
-                            for (int i = 1; i < (4 * (rainDensity / 0.25f)) - 3; i++)
+                            for (int i = 1; i < (2 * (rainDensity / 0.25f)) - 1; i++)
                             {
-                                GameEntity rain = GameEntity.CopyFromPrefab(entity);
-                                MatrixFrame rainFrame = rain.GetFrame();
+                                Mesh rainMesh = entity.GetFirstMesh().CreateCopy();
+                                MatrixFrame rainFrame = rainMesh.GetLocalFrame();
                                 rainFrame.Advance(MBRandom.RandomFloat * 10);
                                 rainFrame.Elevate(MBRandom.RandomFloat * 10);
                                 rainFrame.Strafe(MBRandom.RandomFloat * 10);
-                                rain.SetFrame(ref rainFrame);
-                                rainPrefab.AddChild(rain);
+                                rainMesh.SetLocalFrame(rainFrame);
+                                entity.AddMesh(rainMesh);
                             }
                         }
                     }

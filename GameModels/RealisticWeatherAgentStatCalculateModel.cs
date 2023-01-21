@@ -30,5 +30,7 @@ namespace RealisticWeather.GameModels
         public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon) => _model.GetWeaponDamageMultiplier(agentCharacter, agentOrigin, agentFormation, weapon);
 
         public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData) => _model.InitializeAgentStats(agent, spawnEquipment, agentDrivenProperties, agentBuildData);
+
+        public override void InitializeMissionEquipment(Agent agent) => _model.InitializeMissionEquipment(agent);
     }
 }
