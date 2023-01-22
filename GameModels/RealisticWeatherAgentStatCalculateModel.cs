@@ -1,36 +1,25 @@
-﻿using TaleWorlds.Core;
+﻿using HarmonyLib;
+using SandBox.GameComponents;
+using System.Collections.Generic;
+using System.Reflection;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
 namespace RealisticWeather.GameModels
 {
-    public class RealisticWeatherAgentStatCalculateModel : AgentStatCalculateModel
+    [HarmonyPatch]
+    public class RealisticWeatherAgentStatCalculateModel
     {
-        private readonly AgentStatCalculateModel _model;
-
-        public RealisticWeatherAgentStatCalculateModel(AgentStatCalculateModel model) => _model = model;
-
-        public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
+        private static IEnumerable<MethodBase> TargetMethods()
         {
-            Scene scene = Mission.Current.Scene;
-            _model.UpdateAgentStats(agent, agentDrivenProperties);
-            RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherManager.Current.HasDust);
+            yield return AccessTools.Method(typeof(CustomBattleAgentStatCalculateModel), "UpdateAgentStats");
+            yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateAgentStats");
         }
 
-        public override bool CanAgentRideMount(Agent agent, Agent targetMount) => _model.CanAgentRideMount(agent, targetMount);
-
-        public override float GetDifficultyModifier() => _model.GetDifficultyModifier();
-
-        public override float GetDismountResistance(Agent agent) => _model.GetDismountResistance(agent);
-
-        public override float GetKnockBackResistance(Agent agent) => _model.GetKnockBackResistance(agent);
-
-        public override float GetKnockDownResistance(Agent agent, StrikeType strikeType = StrikeType.Invalid) => _model.GetKnockDownResistance(agent, strikeType);
-
-        public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon) => _model.GetWeaponDamageMultiplier(agentCharacter, agentOrigin, agentFormation, weapon);
-
-        public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData) => _model.InitializeAgentStats(agent, spawnEquipment, agentDrivenProperties, agentBuildData);
-
-        public override void InitializeMissionEquipment(Agent agent) => _model.InitializeMissionEquipment(agent);
+        public static void Postfix(Agent agent, AgentDrivenProperties agentDrivenProperties)
+        {
+            Scene scene = Mission.Current.Scene;
+            RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherManager.Current.HasDust);
+        }
     }
 }

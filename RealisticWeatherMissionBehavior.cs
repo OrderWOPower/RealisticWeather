@@ -183,7 +183,7 @@ namespace RealisticWeather
         }
 
         // Stop the ambient sounds.
-        public override void HandleOnCloseMission()
+        protected override void OnEndMission()
         {
             _rainSound?.Stop();
             _dustSound?.Stop();

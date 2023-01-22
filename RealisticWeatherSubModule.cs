@@ -2,7 +2,6 @@
 using HarmonyLib;
 using RealisticWeather.GameModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -28,9 +27,7 @@ namespace RealisticWeather
         // Check whether RBM is loaded.
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
-            List<GameModel> models = gameStarter.Models.ToList();
-            gameStarter.AddModel(new RealisticWeatherAgentStatCalculateModel((AgentStatCalculateModel)models.FindLast(model => model is AgentStatCalculateModel)));
-            gameStarter.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)models.FindLast(model => model is BattleMoraleModel)));
+            gameStarter.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)gameStarter.Models.ToList().FindLast(model => model is BattleMoraleModel)));
             _postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
             if (_postureLogic != null)
             {
