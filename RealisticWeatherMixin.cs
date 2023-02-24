@@ -40,10 +40,10 @@ namespace RealisticWeather
             get
             {
                 yield return ("None", 1);
-                yield return ("Light", 8);
-                yield return ("Moderate", 16);
-                yield return ("Heavy", 32);
-                yield return ("Very Heavy", 64);
+                yield return ("Light", 4);
+                yield return ("Moderate", 8);
+                yield return ("Heavy", 16);
+                yield return ("Very Heavy", 32);
                 yield return ("Dust Storm (Special)", 0);
             }
         }

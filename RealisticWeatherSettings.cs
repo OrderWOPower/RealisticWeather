@@ -98,7 +98,7 @@ namespace RealisticWeather
         [SettingPropertyGroup("Override Fog Density", GroupOrder = 7)]
         public bool ShouldOverrideFogDensity { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("Fog Density", 1, 64, "0", Order = 1, RequireRestart = false, HintText = "Overridden fog density. Default is 1.")]
+        [SettingPropertyFloatingInteger("Fog Density", 1, 32, "0", Order = 1, RequireRestart = false, HintText = "Overridden fog density. Default is 1.")]
         [SettingPropertyGroup("Override Fog Density", GroupOrder = 7)]
         public float OverriddenFogDensity { get; set; } = 1;
 

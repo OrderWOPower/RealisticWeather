@@ -80,7 +80,7 @@ namespace RealisticWeather
                     }
                     if (fogChance > MBRandom.RandomFloat && (!isArenaMission || (isArenaMission && settings.CanArenaHaveFog)))
                     {
-                        fogDensity = !settings.ShouldOverrideFogDensity ? MBRandom.RandomFloatRanged(0.125f, 1f) * 64 : settings.OverriddenFogDensity;
+                        fogDensity = !settings.ShouldOverrideFogDensity ? MBRandom.RandomFloatRanged(0.125f, 1f) * 32 : settings.OverriddenFogDensity;
                     }
                     hasDust = dustChance > MBRandom.RandomFloat && (!isArenaMission || (isArenaMission && settings.CanArenaHaveDust));
                 }
@@ -106,7 +106,7 @@ namespace RealisticWeather
                     Vec3 fogColor = new Vec3(1, 1, 1, 1);
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, 0, -25);
+                    scene.SetFogAdvanced(0, 0, -50);
                 }
                 if (hasDust && rainDensity == 0f)
                 {
