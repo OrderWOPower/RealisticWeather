@@ -106,7 +106,7 @@ namespace RealisticWeather
                     Vec3 fogColor = new Vec3(1, 1, 1, 1);
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, 0, -50);
+                    scene.SetFogAdvanced(0, 0, -40);
                 }
                 if (hasDust && rainDensity == 0f)
                 {
