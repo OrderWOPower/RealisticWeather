@@ -1,5 +1,4 @@
 ﻿using SandBox.Missions.MissionLogics.Arena;
-using SandBox.Tournaments.MissionLogics;
 using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -39,7 +38,7 @@ namespace RealisticWeather
                 float rainDensity = 0f;
                 float fogDensity = 1f;
                 bool hasDust = false;
-                bool isArenaMission = Mission.HasMissionBehavior<TournamentBehavior>() || Mission.HasMissionBehavior<ArenaPracticeFightMissionController>();
+                bool isArenaMission = Mission.HasMissionBehavior<ArenaAgentStateDeciderLogic>();
                 if (gameType is Campaign)
                 {
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
