@@ -5,9 +5,9 @@ namespace RealisticWeather
 {
     public static class RealisticWeatherHelper
     {
-        public static float GetRainEffectOnMovementSpeed(float rainDensity) => 1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMovementSpeedMultiplier / 4);
+        public static float GetRainEffectOnMovementSpeed(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMovementSpeedMultiplier / 4), 0f);
 
-        public static float GetRainEffectOnProjectileSpeed(float rainDensity) => 1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnProjectileSpeedMultiplier / 4);
+        public static float GetRainEffectOnProjectileSpeed(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnProjectileSpeedMultiplier / 4), 0f);
 
         public static float GetRainEffectOnMorale(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMoraleMultiplier), 0f);
 
@@ -17,9 +17,9 @@ namespace RealisticWeather
 
         public static float GetFogEffectOnMorale(float fogDensity) => MathF.Max(1 - ((fogDensity > 1 ? fogDensity : 0) * RealisticWeatherSettings.Instance.FogEffectOnMoraleMultiplier / 32), 0f);
 
-        public static float GetDustEffectOnMovementSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOnMovementSpeedMultiplier / 4) : 1;
+        public static float GetDustEffectOnMovementSpeed(bool hasDust) => hasDust ? MathF.Max(1 - (RealisticWeatherSettings.Instance.DustEffectOnMovementSpeedMultiplier / 4), 0f) : 1;
 
-        public static float GetDustEffectOnProjectileSpeed(bool hasDust) => hasDust ? 1 - (RealisticWeatherSettings.Instance.DustEffectOProjectileSpeedMultiplier / 4) : 1;
+        public static float GetDustEffectOnProjectileSpeed(bool hasDust) => hasDust ? MathF.Max(1 - (RealisticWeatherSettings.Instance.DustEffectOProjectileSpeedMultiplier / 4), 0f) : 1;
 
         public static float GetDustEffectOnShootFreq(bool hasDust) => hasDust ? 1 + (MathF.Log(32, 2) * RealisticWeatherSettings.Instance.DustEffectOnShootFreqMultiplier * 2) : 1;
 
@@ -34,18 +34,18 @@ namespace RealisticWeather
         // Increase shooter error according to dust.
         public static void SetWeatherEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, float rainDensity, float fogDensity, bool hasDust)
         {
-            if (!agent.IsHuman)
-            {
-                agentDrivenProperties.MountSpeed *= GetRainEffectOnMovementSpeed(rainDensity);
-                agentDrivenProperties.MountSpeed *= GetDustEffectOnMovementSpeed(hasDust);
-            }
-            else
+            if (agent.IsHuman)
             {
                 agentDrivenProperties.MaxSpeedMultiplier *= GetRainEffectOnMovementSpeed(rainDensity);
                 agentDrivenProperties.MaxSpeedMultiplier *= GetDustEffectOnMovementSpeed(hasDust);
                 agentDrivenProperties.AiShootFreq /= GetFogEffectOnShootFreq(fogDensity);
                 agentDrivenProperties.AiShootFreq /= GetDustEffectOnShootFreq(hasDust);
                 agentDrivenProperties.AiShooterError *= GetDustEffectOnShooterError(hasDust);
+            }
+            else
+            {
+                agentDrivenProperties.MountSpeed *= GetRainEffectOnMovementSpeed(rainDensity);
+                agentDrivenProperties.MountSpeed *= GetDustEffectOnMovementSpeed(hasDust);
             }
         }
 

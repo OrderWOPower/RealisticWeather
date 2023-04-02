@@ -2,7 +2,6 @@
 using SandBox.GameComponents;
 using System.Collections.Generic;
 using System.Reflection;
-using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
 namespace RealisticWeather.GameModels
@@ -12,14 +11,13 @@ namespace RealisticWeather.GameModels
     {
         private static IEnumerable<MethodBase> TargetMethods()
         {
-            yield return AccessTools.Method(typeof(CustomBattleAgentStatCalculateModel), "UpdateAgentStats");
-            yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateAgentStats");
+            yield return AccessTools.Method(typeof(CustomBattleAgentStatCalculateModel), "UpdateHumanStats");
+            yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateHumanStats");
+            yield return AccessTools.Method(typeof(CustomBattleAgentStatCalculateModel), "UpdateHorseStats");
+            yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateHorseStats");
         }
 
-        public static void Postfix(Agent agent, AgentDrivenProperties agentDrivenProperties)
-        {
-            Scene scene = Mission.Current.Scene;
-            RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, scene.GetRainDensity(), scene.GetFog(), RealisticWeatherManager.Current.HasDust);
-        }
+        [HarmonyPriority(Priority.Last)]
+        private static void Postfix(Agent agent, AgentDrivenProperties agentDrivenProperties) => RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, Mission.Current.Scene.GetRainDensity(), Mission.Current.Scene.GetFog(), RealisticWeatherManager.Current.HasDust);
     }
 }
