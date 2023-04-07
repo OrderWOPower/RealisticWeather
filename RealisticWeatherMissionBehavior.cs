@@ -1,5 +1,6 @@
 ﻿using SandBox.Missions.MissionLogics.Arena;
 using System;
+using System.Reflection;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -119,7 +120,8 @@ namespace RealisticWeather
                     }
                     catch (Exception)
                     {
-                        InformationManager.DisplayMessage(new InformationMessage("Error generating dust storm!"));
+                        MethodBase method = MethodBase.GetCurrentMethod();
+                        InformationManager.DisplayMessage(new InformationMessage(method.DeclaringType.FullName + "." + method.Name + ": Error generating dust storm!"));
                     }
                 }
             }
