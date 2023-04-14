@@ -12,8 +12,8 @@ namespace RealisticWeather.GameModels
         private static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(CustomBattleAgentStatCalculateModel), "UpdateHumanStats");
-            yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateHumanStats");
             yield return AccessTools.Method(typeof(CustomBattleAgentStatCalculateModel), "UpdateHorseStats");
+            yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateHumanStats");
             yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateHorseStats");
         }
 

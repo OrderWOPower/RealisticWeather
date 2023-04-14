@@ -149,5 +149,9 @@ namespace RealisticWeather
         [SettingPropertyFloatingInteger("Dust Effect on Posture", 0.0f, 2.0f, "0.0", Order = 11, RequireRestart = false, HintText = "Multiplier for dust effect on RBM posture. Default is 1.0.")]
         [SettingPropertyGroup("Multipliers", GroupOrder = 8)]
         public float DustEffectOnPostureMultiplier { get; set; } = 1;
+
+        [SettingPropertyBool("Hide in Free Camera", Order = 0, RequireRestart = false, HintText = "Hide rain, snow and dust in RTS Camera's free camera mode. Weather effects will still apply. Disabled by default.")]
+        [SettingPropertyGroup("RTS Camera", GroupOrder = 9)]
+        public bool ShouldHideInFreeCamera { get; set; } = false;
     }
 }
