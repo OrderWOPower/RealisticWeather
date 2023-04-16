@@ -1,4 +1,6 @@
-﻿using SandBox.Missions.MissionLogics.Arena;
+﻿using HarmonyLib;
+using RealisticWeather.Logics;
+using SandBox.Missions.MissionLogics.Arena;
 using System;
 using System.Reflection;
 using TaleWorlds.CampaignSystem;
@@ -27,10 +29,13 @@ namespace RealisticWeather
         // Decrease the sun intensity according to rain density.
         // Decrease the sky brightness if there is a dust storm.
         // Play the dust storm ambient sound if there is a dust storm.
+        // Check whether RBM is loaded.
         public override void AfterStart()
         {
             Scene scene = Mission.Scene;
             RealisticWeatherManager manager = RealisticWeatherManager.Current;
+            Type postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
+            Harmony harmony = RealisticWeatherSubModule.HarmonyInstance;
             manager.SetDust(false);
             _hasTicked = false;
             if (!scene.IsAtmosphereIndoor)
@@ -124,6 +129,11 @@ namespace RealisticWeather
                         InformationManager.DisplayMessage(new InformationMessage(method.DeclaringType.FullName + "." + method.Name + ": Error generating dust storm!"));
                     }
                 }
+                if (postureLogic != null)
+                {
+                    harmony.Patch(AccessTools.Method(postureLogic, "calculateDefenderPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
+                    harmony.Patch(AccessTools.Method(postureLogic, "calculateAttackerPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
+                }
             }
         }
 
@@ -186,8 +196,15 @@ namespace RealisticWeather
         // Stop the ambient sounds.
         protected override void OnEndMission()
         {
+            Type postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
+            Harmony harmony = RealisticWeatherSubModule.HarmonyInstance;
             _rainSound?.Stop();
             _dustSound?.Stop();
+            if (postureLogic != null)
+            {
+                harmony.Unpatch(AccessTools.Method(postureLogic, "calculateDefenderPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
+                harmony.Unpatch(AccessTools.Method(postureLogic, "calculateAttackerPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
+            }
         }
     }
 }

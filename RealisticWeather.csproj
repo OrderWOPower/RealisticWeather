@@ -81,10 +81,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RealisticWeatherCameraLogic.cs" />
+    <Compile Include="Logics\RealisticWeatherCameraLogic.cs" />
     <Compile Include="RealisticWeatherManager.cs" />
     <Compile Include="RealisticWeatherMissionBehavior.cs" />
-    <Compile Include="RealisticWeatherPostureLogic.cs" />
+    <Compile Include="Logics\RealisticWeatherPostureLogic.cs" />
     <Compile Include="RealisticWeatherSettings.cs" />
     <Compile Include="ViewModels\FogDensityItemVM.cs" />
     <Compile Include="ViewModels\RainDensityItemVM.cs" />
