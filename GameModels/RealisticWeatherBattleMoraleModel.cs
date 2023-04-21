@@ -1,5 +1,4 @@
 ﻿using TaleWorlds.Core;
-using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
@@ -12,11 +11,7 @@ namespace RealisticWeather.GameModels
         public RealisticWeatherBattleMoraleModel(BattleMoraleModel model) => _model = model;
 
         // Decrease morale according to rain density, fog density and dust.
-        public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)
-        {
-            Scene scene = Mission.Current.Scene;
-            return _model.GetEffectiveInitialMorale(agent, baseMorale) * RealisticWeatherHelper.GetRainEffectOnMorale(scene.GetRainDensity()) * RealisticWeatherHelper.GetFogEffectOnMorale(scene.GetFog()) * RealisticWeatherHelper.GetDustEffectOnMorale(RealisticWeatherManager.Current.HasDust);
-        }
+        public override float GetEffectiveInitialMorale(Agent agent, float baseMorale) => _model.GetEffectiveInitialMorale(agent, baseMorale) * RealisticWeatherHelper.GetRainEffectOnMorale(Mission.Current.Scene.GetRainDensity()) * RealisticWeatherHelper.GetFogEffectOnMorale(Mission.Current.Scene.GetFog()) * RealisticWeatherHelper.GetDustEffectOnMorale(RealisticWeatherManager.Current.HasDust);
 
         public override float CalculateCasualtiesFactor(BattleSideEnum battleSide) => _model.CalculateCasualtiesFactor(battleSide);
 

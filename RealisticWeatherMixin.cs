@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using TaleWorlds.Core.ViewModelCollection.Selector;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.CustomBattle.CustomBattle;
 
 namespace RealisticWeather
@@ -27,11 +28,11 @@ namespace RealisticWeather
         {
             get
             {
-                yield return ("None", 0f);
-                yield return ("Light", 0.25f);
-                yield return ("Moderate", 0.5f);
-                yield return ("Heavy", 0.75f);
-                yield return ("Very Heavy", 1f);
+                yield return (new TextObject("{=RealisticWeather01}None").ToString(), 0f);
+                yield return (new TextObject("{=RealisticWeather02}Light").ToString(), 0.25f);
+                yield return (new TextObject("{=RealisticWeather03}Moderate").ToString(), 0.5f);
+                yield return (new TextObject("{=RealisticWeather04}Heavy").ToString(), 0.75f);
+                yield return (new TextObject("{=RealisticWeather05}Very Heavy").ToString(), 1f);
             }
         }
 
@@ -39,12 +40,12 @@ namespace RealisticWeather
         {
             get
             {
-                yield return ("None", 1);
-                yield return ("Light", 4);
-                yield return ("Moderate", 8);
-                yield return ("Heavy", 16);
-                yield return ("Very Heavy", 32);
-                yield return ("Dust Storm (Special)", 0);
+                yield return (new TextObject("{=RealisticWeather01}None").ToString(), 1);
+                yield return (new TextObject("{=RealisticWeather02}Light").ToString(), 4);
+                yield return (new TextObject("{=RealisticWeather03}Moderate").ToString(), 8);
+                yield return (new TextObject("{=RealisticWeather04}Heavy").ToString(), 16);
+                yield return (new TextObject("{=RealisticWeather05}Very Heavy").ToString(), 32);
+                yield return (new TextObject("{=RealisticWeather06}Dust Storm (Special)").ToString(), 0);
             }
         }
 
@@ -113,8 +114,8 @@ namespace RealisticWeather
 
         public override void OnRefresh()
         {
-            RainDensityText = "Rain/Snow Density";
-            FogDensityText = "Fog Density";
+            RainDensityText = new TextObject("{=RealisticWeather07}Rain/Snow Density").ToString();
+            FogDensityText = new TextObject("{=RealisticWeather08}Fog Density").ToString();
             RainDensitySelection.ItemList.Clear();
             FogDensitySelection.ItemList.Clear();
             foreach ((string, float) rainDensity in RainDensities)
