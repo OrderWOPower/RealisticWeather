@@ -1,7 +1,4 @@
-﻿using HarmonyLib;
-using SandBox.Missions.MissionLogics.Arena;
-using System;
-using System.Reflection;
+﻿using SandBox.Missions.MissionLogics.Arena;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -111,19 +108,15 @@ namespace RealisticWeather
                 }
                 if (hasDust && rainDensity == 0f)
                 {
-                    try
-                    {
-                        GameEntity.Instantiate(scene, "dust_prefab_entity", Mission.GetSceneMiddleFrame().ToGroundMatrixFrame());
-                        scene.SetSkyBrightness(scene.TimeOfDay < 12 ? ((MathF.Pow(2, scene.TimeOfDay) - 1) / 10) : ((MathF.Pow(2, 24 - scene.TimeOfDay) - 1) / 10));
-                        _dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
-                        _dustSound.Play();
-                        manager.SetDust(true);
-                    }
-                    catch (Exception)
-                    {
-                        MethodBase method = MethodBase.GetCurrentMethod();
-                        InformationManager.DisplayMessage(new InformationMessage(method.DeclaringType.FullName + "." + method.Name + ": Error generating dust storm!"));
-                    }
+                    Vec2 terrainSize = new Vec2(1f, 1f);
+                    scene.GetTerrainData(out Vec2i nodeDimension, out float nodeSize, out _, out _);
+                    terrainSize.x = nodeDimension.X * nodeSize;
+                    terrainSize.y = nodeDimension.Y * nodeSize;
+                    GameEntity.Instantiate(scene, "dust_prefab_entity", new MatrixFrame(Mat3.Identity, new Vec3(terrainSize / 2)));
+                    scene.SetSkyBrightness(scene.TimeOfDay < 12 ? ((MathF.Pow(2, scene.TimeOfDay) - 1) / 10) : ((MathF.Pow(2, 24 - scene.TimeOfDay) - 1) / 10));
+                    _dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
+                    _dustSound.Play();
+                    manager.SetDust(true);
                 }
             }
         }
@@ -187,7 +180,6 @@ namespace RealisticWeather
         // Stop the ambient sounds.
         protected override void OnEndMission()
         {
-            Type postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
             _rainSound?.Stop();
             _dustSound?.Stop();
         }
