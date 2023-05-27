@@ -29,21 +29,22 @@ namespace RealisticWeather
 
         public static float GetDustEffectOnPosture(bool hasDust) => hasDust ? 1 + RealisticWeatherSettings.Instance.DustEffectOnPostureMultiplier : 1;
 
-        // Decrease movement speed according to rain density and dust.
-        // Decrease shoot frequency according to fog density and dust.
-        // Increase shooter error according to dust.
         public static void SetWeatherEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, float rainDensity, float fogDensity, bool hasDust)
         {
             if (agent.IsHuman)
             {
+                // Decrease movement speed according to rain density and dust.
                 agentDrivenProperties.MaxSpeedMultiplier *= GetRainEffectOnMovementSpeed(rainDensity);
                 agentDrivenProperties.MaxSpeedMultiplier *= GetDustEffectOnMovementSpeed(hasDust);
+                // Decrease shoot frequency according to fog density and dust.
                 agentDrivenProperties.AiShootFreq /= GetFogEffectOnShootFreq(fogDensity);
                 agentDrivenProperties.AiShootFreq /= GetDustEffectOnShootFreq(hasDust);
+                // Increase shooter error according to dust.
                 agentDrivenProperties.AiShooterError *= GetDustEffectOnShooterError(hasDust);
             }
             else
             {
+                // Decrease movement speed according to rain density and dust.
                 agentDrivenProperties.MountSpeed *= GetRainEffectOnMovementSpeed(rainDensity);
                 agentDrivenProperties.MountSpeed *= GetDustEffectOnMovementSpeed(hasDust);
             }

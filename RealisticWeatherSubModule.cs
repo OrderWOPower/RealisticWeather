@@ -19,17 +19,21 @@ namespace RealisticWeather
         protected override void OnSubModuleLoad()
         {
             UIExtender uiExtender = new UIExtender("RealisticWeather");
-            _harmony = new Harmony("mod.bannerlord.realisticweather");
-            _harmony.PatchAll();
+
             uiExtender.Register(typeof(RealisticWeatherSubModule).Assembly);
             uiExtender.Enable();
+
+            _harmony = new Harmony("mod.bannerlord.realisticweather");
+            _harmony.PatchAll();
         }
 
-        // Check whether RBM is loaded.
-        protected override void OnGameStart(Game game, IGameStarter gameStarter)
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
+            gameStarterObject.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)gameStarterObject.Models.Last(model => model is BattleMoraleModel)));
+
             _postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
-            gameStarter.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)gameStarter.Models.ToList().FindLast(model => model is BattleMoraleModel)));
+
+            // Check whether RBM is loaded.
             if (_postureLogic != null)
             {
                 _harmony.Patch(AccessTools.Method(_postureLogic, "calculateDefenderPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));

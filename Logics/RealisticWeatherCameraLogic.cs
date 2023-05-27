@@ -13,12 +13,13 @@ namespace RealisticWeather.Logics
         // Check whether RTS Camera is loaded.
         private static bool Prepare() => TargetMethod() != null;
 
-        // Hide weather visuals in RTS Camera's free camera mode.
         public static void Postfix(object __instance, bool ___IsSpectatorCamera)
         {
             if (RealisticWeatherSettings.Instance.ShouldHideInFreeCamera)
             {
                 Scene scene = ((Mission)AccessTools.Property(AccessTools.TypeByName("SwitchFreeCameraLogic"), "Mission").GetValue(__instance)).Scene;
+
+                // Hide weather visuals in RTS Camera's free camera mode.
                 (scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity") ?? scene.GetFirstEntityWithName("dust_prefab_entity"))?.SetVisibilityExcludeParents(!___IsSpectatorCamera);
             }
         }

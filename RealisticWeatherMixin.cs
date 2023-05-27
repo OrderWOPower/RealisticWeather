@@ -15,8 +15,7 @@ namespace RealisticWeather
     {
         private SelectorVM<RainDensityItemVM> _rainDensitySelection;
         private SelectorVM<FogDensityItemVM> _fogDensitySelection;
-        private string _rainDensityText;
-        private string _fogDensityText;
+        private string _rainDensityText, _fogDensityText;
 
         public static WeakReference<RealisticWeatherMixin> MixinWeakReference { get; set; }
 
@@ -53,11 +52,13 @@ namespace RealisticWeather
         public SelectorVM<RainDensityItemVM> RainDensitySelection
         {
             get => _rainDensitySelection;
+
             set
             {
                 if (value != _rainDensitySelection)
                 {
                     _rainDensitySelection = value;
+
                     ViewModel?.OnPropertyChangedWithValue(value, "RainDensity");
                 }
             }
@@ -67,11 +68,13 @@ namespace RealisticWeather
         public SelectorVM<FogDensityItemVM> FogDensitySelection
         {
             get => _fogDensitySelection;
+
             set
             {
                 if (value != _fogDensitySelection)
                 {
                     _fogDensitySelection = value;
+
                     ViewModel?.OnPropertyChangedWithValue(value, "FogDensity");
                 }
             }
@@ -81,11 +84,13 @@ namespace RealisticWeather
         public string RainDensityText
         {
             get => _rainDensityText;
+
             set
             {
                 if (value != _rainDensityText)
                 {
                     _rainDensityText = value;
+
                     ViewModel?.OnPropertyChangedWithValue(value, "RainDensityText");
                 }
             }
@@ -95,11 +100,13 @@ namespace RealisticWeather
         public string FogDensityText
         {
             get => _fogDensityText;
+
             set
             {
                 if (value != _fogDensityText)
                 {
                     _fogDensityText = value;
+
                     ViewModel?.OnPropertyChangedWithValue(value, "FogDensityText");
                 }
             }
@@ -116,16 +123,20 @@ namespace RealisticWeather
         {
             RainDensityText = new TextObject("{=RealisticWeather07}Rain/Snow Density").ToString();
             FogDensityText = new TextObject("{=RealisticWeather08}Fog Density").ToString();
+
             RainDensitySelection.ItemList.Clear();
             FogDensitySelection.ItemList.Clear();
+
             foreach ((string, float) rainDensity in RainDensities)
             {
                 RainDensitySelection.AddItem(new RainDensityItemVM(rainDensity.Item1, rainDensity.Item2));
             }
+
             foreach ((string, float) fogDensity in FogDensities)
             {
                 FogDensitySelection.AddItem(new FogDensityItemVM(fogDensity.Item1, fogDensity.Item2));
             }
+
             RainDensitySelection.SelectedIndex = 0;
             FogDensitySelection.SelectedIndex = 0;
         }

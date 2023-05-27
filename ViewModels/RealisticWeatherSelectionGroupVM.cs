@@ -6,11 +6,11 @@ namespace RealisticWeather.ViewModels
     [HarmonyPatch(typeof(MapSelectionGroupVM), "RandomizeAll")]
     public class RealisticWeatherSelectionGroupVM
     {
-        // Randomize the Rain Density and Fog Density selections.
         public static void Postfix()
         {
             if (RealisticWeatherHelper.HasTarget(out RealisticWeatherMixin mixin))
             {
+                // Randomize the Rain Density and Fog Density selections.
                 mixin.RainDensitySelection.ExecuteRandomize();
                 mixin.FogDensitySelection.ExecuteRandomize();
             }
