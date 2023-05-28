@@ -123,7 +123,6 @@ namespace RealisticWeather
         {
             RainDensityText = new TextObject("{=RealisticWeather07}Rain/Snow Density").ToString();
             FogDensityText = new TextObject("{=RealisticWeather08}Fog Density").ToString();
-
             RainDensitySelection.ItemList.Clear();
             FogDensitySelection.ItemList.Clear();
 

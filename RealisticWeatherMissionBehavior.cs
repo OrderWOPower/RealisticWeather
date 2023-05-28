@@ -25,11 +25,10 @@ namespace RealisticWeather
 
             if (!scene.IsAtmosphereIndoor)
             {
-                GameType gameType = Game.Current.GameType;
                 float rainDensity = 0f, fogDensity = 1f;
                 bool hasDust = false, isArenaMission = Mission.HasMissionBehavior<ArenaAgentStateDeciderLogic>();
 
-                if (gameType is Campaign)
+                if (Game.Current.GameType is Campaign)
                 {
                     float rainChance, fogChance, dustChance;
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
@@ -80,7 +79,7 @@ namespace RealisticWeather
 
                     hasDust = dustChance > MBRandom.RandomFloat && (!isArenaMission || (isArenaMission && settings.CanArenaHaveDust));
                 }
-                else if (gameType is CustomGame)
+                else if (Game.Current.GameType is CustomGame)
                 {
                     if (RealisticWeatherHelper.HasTarget(out RealisticWeatherMixin mixin))
                     {
