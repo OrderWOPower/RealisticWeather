@@ -7,23 +7,23 @@ namespace RealisticWeather
     {
         public static float GetRainEffectOnMovementSpeed(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMovementSpeedMultiplier / 4), 0f);
 
-        public static float GetRainEffectOnProjectileSpeed(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnProjectileSpeedMultiplier / 4), 0f);
+        public static float GetRainEffectOnWeaponInaccuracy(float rainDensity) => 1 + (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnWeaponInaccuracyMultiplier);
+
+        public static float GetRainEffectOnShooterError(float rainDensity) => 1 + (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnShooterErrorMultiplier);
 
         public static float GetRainEffectOnMorale(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMoraleMultiplier), 0f);
 
         public static float GetRainEffectOnPosture(float rainDensity) => 1 + (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnPostureMultiplier);
 
-        public static float GetFogEffectOnShootFreq(float fogDensity) => 1 + (MathF.Log(fogDensity, 2) * RealisticWeatherSettings.Instance.FogEffectOnShootFreqMultiplier * 2);
+        public static float GetFogEffectOnShooterError(float fogDensity) => 1 + (MathF.Log(fogDensity / 4, 2) * RealisticWeatherSettings.Instance.FogEffectOnShooterErrorMultiplier);
 
         public static float GetFogEffectOnMorale(float fogDensity) => MathF.Max(1 - ((fogDensity > 1 ? fogDensity : 0) * RealisticWeatherSettings.Instance.FogEffectOnMoraleMultiplier / 32), 0f);
 
         public static float GetDustEffectOnMovementSpeed(bool hasDust) => hasDust ? MathF.Max(1 - (RealisticWeatherSettings.Instance.DustEffectOnMovementSpeedMultiplier / 4), 0f) : 1;
 
-        public static float GetDustEffectOnProjectileSpeed(bool hasDust) => hasDust ? MathF.Max(1 - (RealisticWeatherSettings.Instance.DustEffectOProjectileSpeedMultiplier / 4), 0f) : 1;
+        public static float GetDustEffectOnWeaponInaccuracy(bool hasDust) => hasDust ? 1 + (RealisticWeatherSettings.Instance.DustEffectOnWeaponInaccuracyMultiplier) : 1;
 
-        public static float GetDustEffectOnShootFreq(bool hasDust) => hasDust ? 1 + (MathF.Log(32, 2) * RealisticWeatherSettings.Instance.DustEffectOnShootFreqMultiplier * 2) : 1;
-
-        public static float GetDustEffectOnShooterError(bool hasDust) => hasDust ? 1 + RealisticWeatherSettings.Instance.DustEffectOnShooterErrorMultiplier : 1;
+        public static float GetDustEffectOnShooterError(bool hasDust) => hasDust ? 1 + (MathF.Log(32 / 4, 2) * RealisticWeatherSettings.Instance.DustEffectOnShooterErrorMultiplier) : 1;
 
         public static float GetDustEffectOnMorale(bool hasDust) => hasDust ? MathF.Max(1 - RealisticWeatherSettings.Instance.DustEffectOnMoraleMultiplier, 0f) : 1;
 
@@ -36,10 +36,11 @@ namespace RealisticWeather
                 // Decrease movement speed according to rain density and dust.
                 agentDrivenProperties.MaxSpeedMultiplier *= GetRainEffectOnMovementSpeed(rainDensity);
                 agentDrivenProperties.MaxSpeedMultiplier *= GetDustEffectOnMovementSpeed(hasDust);
-                // Decrease shoot frequency according to fog density and dust.
-                agentDrivenProperties.AiShootFreq /= GetFogEffectOnShootFreq(fogDensity);
-                agentDrivenProperties.AiShootFreq /= GetDustEffectOnShootFreq(hasDust);
-                // Increase shooter error according to dust.
+                // Increase weapon inaccuracy according to rain density and dust.
+                agentDrivenProperties.WeaponInaccuracy *= GetRainEffectOnWeaponInaccuracy(rainDensity);
+                agentDrivenProperties.WeaponInaccuracy *= GetDustEffectOnWeaponInaccuracy(hasDust);
+                // Increase shooter error according to rain density, fog density and dust.
+                agentDrivenProperties.AiShooterError *= MathF.Max(GetRainEffectOnShooterError(rainDensity), GetFogEffectOnShooterError(fogDensity));
                 agentDrivenProperties.AiShooterError *= GetDustEffectOnShooterError(hasDust);
             }
             else

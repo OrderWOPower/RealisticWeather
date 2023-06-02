@@ -92,7 +92,6 @@
     <Compile Include="GameModels\RealisticWeatherAgentStatCalculateModel.cs" />
     <Compile Include="GameModels\RealisticWeatherBattleMoraleModel.cs" />
     <Compile Include="RealisticWeatherHelper.cs" />
-    <Compile Include="RealisticWeatherMission.cs" />
     <Compile Include="RealisticWeatherPrefab.cs" />
     <Compile Include="RealisticWeatherSubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,7 +10,7 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace RealisticWeather
 {
-    // This mod adds rain/snow, fog and dust storms which affect movement speed, projectile speed, projectile accuracy and morale.
+    // This mod adds rain/snow, fog and dust storms which affect movement speed, ranged weapon accuracy, AI shooter error and morale.
     public class RealisticWeatherSubModule : MBSubModuleBase
     {
         private Harmony _harmony;

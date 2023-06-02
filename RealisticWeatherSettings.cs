@@ -106,37 +106,37 @@ namespace RealisticWeather
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
         public float RainEffectOnMovementSpeedMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather51}Rain Effect on Projectile Speed", 0.0f, 2.0f, "0.0", Order = 1, RequireRestart = false, HintText = "{=RealisticWeather52}Multiplier for rain effect on projectile speed. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather51}Rain Effect on Weapon Inaccuracy", 0.0f, 2.0f, "0.0", Order = 1, RequireRestart = false, HintText = "{=RealisticWeather52}Multiplier for rain effect on ranged weapon inaccuracy. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
-        public float RainEffectOnProjectileSpeedMultiplier { get; set; } = 1;
+        public float RainEffectOnWeaponInaccuracyMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather53}Rain Effect on Morale", 0.0f, 2.0f, "0.0", Order = 2, RequireRestart = false, HintText = "{=RealisticWeather54}Multiplier for rain effect on morale. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather53}Rain Effect on Shooter Error", 0.0f, 2.0f, "0.0", Order = 2, RequireRestart = false, HintText = "{=RealisticWeather54}Multiplier for rain effect on AI shooter error. Default is 1.0.")]
+        [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
+        public float RainEffectOnShooterErrorMultiplier { get; set; } = 1;
+
+        [SettingPropertyFloatingInteger("{=RealisticWeather55}Rain Effect on Morale", 0.0f, 2.0f, "0.0", Order = 3, RequireRestart = false, HintText = "{=RealisticWeather56}Multiplier for rain effect on morale. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
         public float RainEffectOnMoraleMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather55}Rain Effect on Posture", 0.0f, 2.0f, "0.0", Order = 3, RequireRestart = false, HintText = "{=RealisticWeather56}Multiplier for rain effect on RBM posture. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather57}Rain Effect on Posture", 0.0f, 2.0f, "0.0", Order = 4, RequireRestart = false, HintText = "{=RealisticWeather58}Multiplier for rain effect on RBM posture. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
         public float RainEffectOnPostureMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather57}Fog Effect on Shoot Frequency", 0.0f, 2.0f, "0.0", Order = 4, RequireRestart = false, HintText = "{=RealisticWeather58}Multiplier for fog effect on AI shoot frequency. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather59}Fog Effect on Shooter Error", 0.0f, 2.0f, "0.0", Order = 5, RequireRestart = false, HintText = "{=RealisticWeather60}Multiplier for fog effect on AI shooter error. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
-        public float FogEffectOnShootFreqMultiplier { get; set; } = 1;
+        public float FogEffectOnShooterErrorMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather59}Fog Effect on Morale", 0.0f, 2.0f, "0.0", Order = 5, RequireRestart = false, HintText = "{=RealisticWeather60}Multiplier for fog effect on morale. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather61}Fog Effect on Morale", 0.0f, 2.0f, "0.0", Order = 6, RequireRestart = false, HintText = "{=RealisticWeather62}Multiplier for fog effect on morale. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
         public float FogEffectOnMoraleMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather61}Dust Effect on Movement Speed", 0.0f, 2.0f, "0.0", Order = 6, RequireRestart = false, HintText = "{=RealisticWeather62}Multiplier for dust effect on movement speed. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather63}Dust Effect on Movement Speed", 0.0f, 2.0f, "0.0", Order = 7, RequireRestart = false, HintText = "{=RealisticWeather64}Multiplier for dust effect on movement speed. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
         public float DustEffectOnMovementSpeedMultiplier { get; set; } = 1;
 
-        [SettingPropertyFloatingInteger("{=RealisticWeather63}Dust Effect on Projectile Speed", 0.0f, 2.0f, "0.0", Order = 7, RequireRestart = false, HintText = "{=RealisticWeather64}Multiplier for dust effect on projectile speed. Default is 1.0.")]
+        [SettingPropertyFloatingInteger("{=RealisticWeather65}Dust Effect on Weapon Inaccuracy", 0.0f, 2.0f, "0.0", Order = 8, RequireRestart = false, HintText = "{=RealisticWeather66}Multiplier for dust effect on ranged weapon inaccuracy. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
-        public float DustEffectOProjectileSpeedMultiplier { get; set; } = 1;
-
-        [SettingPropertyFloatingInteger("{=RealisticWeather65}Dust Effect on Shoot Frequency", 0.0f, 2.0f, "0.0", Order = 8, RequireRestart = false, HintText = "{=RealisticWeather66}Multiplier for dust effect on AI shoot frequency. Default is 1.0.")]
-        [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
-        public float DustEffectOnShootFreqMultiplier { get; set; } = 1;
+        public float DustEffectOnWeaponInaccuracyMultiplier { get; set; } = 1;
 
         [SettingPropertyFloatingInteger("{=RealisticWeather67}Dust Effect on Shooter Error", 0.0f, 2.0f, "0.0", Order = 9, RequireRestart = false, HintText = "{=RealisticWeather68}Multiplier for dust effect on AI shooter error. Default is 1.0.")]
         [SettingPropertyGroup("{=RealisticWeather48}Multipliers", GroupOrder = 8)]
