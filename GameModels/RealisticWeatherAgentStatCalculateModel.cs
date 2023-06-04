@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SandBox.GameComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,7 +20,6 @@ namespace RealisticWeather.GameModels
             yield return AccessTools.Method(typeof(SandboxAgentStatCalculateModel), "UpdateHorseStats");
         }
 
-        [HarmonyPriority(Priority.Last)]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> codes = instructions.ToList();
@@ -49,6 +49,8 @@ namespace RealisticWeather.GameModels
         }
 
         [HarmonyPriority(Priority.Last)]
-        private static void Postfix(Agent agent, AgentDrivenProperties agentDrivenProperties) => RealisticWeatherHelper.SetWeatherEffectsOnAgent(agent, agentDrivenProperties, Mission.Current.Scene.GetRainDensity(), Mission.Current.Scene.GetFog(), RealisticWeatherManager.Current.HasDust);
+        private static void Postfix(Agent agent, AgentDrivenProperties agentDrivenProperties) => RealisticWeatherHelper.ApplyWeatherEffectsOnAgent(agent, agentDrivenProperties, Mission.Current.Scene.GetRainDensity(), Mission.Current.Scene.GetFog(), RealisticWeatherManager.Current.HasDust);
+
+        private static Exception Finalizer() => null;
     }
 }
