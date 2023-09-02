@@ -28,10 +28,9 @@ namespace RealisticWeather
             get
             {
                 yield return (new TextObject("{=RealisticWeather01}None").ToString(), 0f);
-                yield return (new TextObject("{=RealisticWeather02}Light").ToString(), 0.25f);
-                yield return (new TextObject("{=RealisticWeather03}Moderate").ToString(), 0.5f);
-                yield return (new TextObject("{=RealisticWeather04}Heavy").ToString(), 0.75f);
-                yield return (new TextObject("{=RealisticWeather05}Very Heavy").ToString(), 1f);
+                yield return (new TextObject("{=RealisticWeather02}Light").ToString(), 0.701f);
+                yield return (new TextObject("{=RealisticWeather03}Moderate").ToString(), 0.85f);
+                yield return (new TextObject("{=RealisticWeather04}Heavy").ToString(), 1f);
             }
         }
 

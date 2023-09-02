@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
@@ -24,7 +25,21 @@ namespace RealisticWeather.GameModels
         {
             List<CodeInstruction> codes = instructions.ToList();
             CodeInstruction code = null;
-            int startIndex = 0, endIndex = 0;
+            int index = 0, startIndex = 0, endIndex = 0;
+
+            for (int i = 0; i < codes.Count; i++)
+            {
+                if (codes[i].operand is MethodInfo method && method == AccessTools.Method(typeof(AgentStatCalculateModel), "GetEnvironmentSpeedFactor"))
+                {
+                    startIndex = i - 2;
+                    endIndex = i;
+                    index = i + 1;
+                }
+            }
+
+            // Remove the vanilla rain effect on movement speed.
+            codes.Insert(index, new CodeInstruction(OpCodes.Ldc_R4, 1f));
+            codes.RemoveRange(startIndex, endIndex - startIndex + 1);
 
             for (int i = 0; i < codes.Count; i++)
             {

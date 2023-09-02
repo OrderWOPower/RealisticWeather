@@ -33,6 +33,8 @@ namespace RealisticWeather
         {
             if (agent.IsHuman)
             {
+                // Remove the vanilla rain effect on missile speed.
+                agentDrivenProperties.MissileSpeedMultiplier = 1f;
                 // Decrease movement speed according to rain density and dust.
                 agentDrivenProperties.MaxSpeedMultiplier *= GetRainEffectOnMovementSpeed(rainDensity);
                 agentDrivenProperties.MaxSpeedMultiplier *= GetDustEffectOnMovementSpeed(hasDust);
