@@ -16,7 +16,7 @@ namespace RealisticWeather
             RealisticWeatherManager manager = RealisticWeatherManager.Current;
             List<Vec3> prefabPositions = manager.PrefabPositions;
 
-            for (int i = 0; i < prefabPositions.Count; i++)
+            for (int i = 0; i < prefabPositions?.Count; i++)
             {
                 Vec2 position = prefabPositions[i].AsVec2;
 
