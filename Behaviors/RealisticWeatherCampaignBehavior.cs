@@ -17,9 +17,7 @@ namespace RealisticWeather.Behaviors
         public override void RegisterEvents()
         {
             CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(OnGameLoaded));
-            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
             CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(OnHourlyTick));
-            CampaignEvents.TickEvent.AddNonSerializedListener(this, new Action<float>(OnTick));
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -47,24 +45,8 @@ namespace RealisticWeather.Behaviors
                     _prefabPositions[i] -= new Vec3(0, 0, 2);
                 }
             }
-        }
 
-        private void OnDailyTick()
-        {
-            foreach (Vec3 prefabPosition in _prefabPositions.FindAll(p => p.z > 3))
-            {
-                // If a position has z greater than 3, remove it from _prefabPositions.
-                _prefabPositions.Remove(prefabPosition);
-            }
-
-            for (int i = 0; i < _prefabPositions.Count; i++)
-            {
-                if (_prefabPositions[i].z == 2 || _prefabPositions[i].z == 3)
-                {
-                    // Increment the z of each position by 2.
-                    _prefabPositions[i] += new Vec3(0, 0, 2);
-                }
-            }
+            RealisticWeatherManager.Current.SetPrefabPositions(_prefabPositions);
         }
 
         private void OnHourlyTick()
@@ -92,8 +74,24 @@ namespace RealisticWeather.Behaviors
                     _prefabPositions.Add(position.ToVec3(1));
                 }
             }
-        }
 
-        private void OnTick(float dt) => RealisticWeatherManager.Current.SetPrefabPositions(_prefabPositions);
+            foreach (Vec3 prefabPosition in _prefabPositions.FindAll(p => p.z > 3))
+            {
+                // If a position has z greater than 3, remove it from _prefabPositions.
+                _prefabPositions.Remove(prefabPosition);
+            }
+
+            for (int i = 0; i < _prefabPositions.Count; i++)
+            {
+                // Despawn dust storms and fog banks on the campaign map with a 20% chance.
+                if (MBRandom.RandomFloat < 0.2f && (_prefabPositions[i].z == 2 || _prefabPositions[i].z == 3))
+                {
+                    // Increment the z of each position by 2.
+                    _prefabPositions[i] += new Vec3(0, 0, 2);
+                }
+            }
+
+            RealisticWeatherManager.Current.SetPrefabPositions(_prefabPositions);
+        }
     }
 }

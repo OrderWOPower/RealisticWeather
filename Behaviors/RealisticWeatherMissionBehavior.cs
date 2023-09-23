@@ -144,17 +144,18 @@ namespace RealisticWeather.Behaviors
 
                 if (rainDensity > 0f)
                 {
-                    Mesh skyboxMesh = scene.GetSkyboxMesh();
-                    Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
                     GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
                     int season = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season;
 
-                    // Change the skybox texture to an overcast sky.
-                    skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
-                    skyboxMesh.SetMaterial(skyboxMaterial);
-
                     if (rainPrefab != null)
                     {
+                        Mesh skyboxMesh = scene.GetSkyboxMesh();
+                        Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
+
+                        // Change the skybox texture to an overcast sky.
+                        skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
+                        skyboxMesh.SetMaterial(skyboxMaterial);
+
                         foreach (GameEntity entity in rainPrefab.GetChildren())
                         {
                             if (entity.Name != "rain_far")
