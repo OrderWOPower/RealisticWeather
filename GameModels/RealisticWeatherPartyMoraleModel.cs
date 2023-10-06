@@ -23,6 +23,7 @@ namespace RealisticWeather.GameModels
         public override ExplainedNumber GetEffectivePartyMorale(MobileParty party, bool includeDescription = false)
         {
             ExplainedNumber result = _model.GetEffectivePartyMorale(party, includeDescription);
+            Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(party.Position2D) <= 25f);
             MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(party.Position2D);
 
             // Decrease party morale if the party is in light or heavy rain/snow.
@@ -35,20 +36,14 @@ namespace RealisticWeather.GameModels
                 result.Add(-10f, _heavyRainText);
             }
 
-            if (RealisticWeatherManager.Current.PrefabPositions != null)
+            // Decrease party morale if the party is inside a dust storm or fog bank.
+            if (prefabPosition.z == 1)
             {
-                // Find the position of the weather prefab within 25km of the main party.
-                Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
-
-                // Decrease party morale if the party is in a dust storm or fog bank.
-                if (prefabPosition.z == 2)
-                {
-                    result.Add(-10f, _dustText);
-                }
-                else if (prefabPosition.z == 3)
-                {
-                    result.Add(-5f, _fogText);
-                }
+                result.Add(-10f, _dustText);
+            }
+            else if (prefabPosition.z == 2)
+            {
+                result.Add(-5f, _fogText);
             }
 
             return result;

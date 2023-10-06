@@ -35,21 +35,18 @@ namespace RealisticWeather.Behaviors
                 {
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
-                    if (RealisticWeatherManager.Current.PrefabPositions != null)
-                    {
-                        // Find the position of the weather prefab within 25km of the main party.
-                        Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
+                    // Find the position of the weather prefab within 25km of the main party.
+                    Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
 
-                        if (prefabPosition.z == 2)
-                        {
-                            // If the position has z as 2, spawn a dust storm in the mission.
-                            hasDust = true;
-                        }
-                        else if (prefabPosition.z == 3)
-                        {
-                            // If the position has z as 3, spawn fog in the mission.
-                            fogDensity = MBRandom.RandomInt(1, 32);
-                        }
+                    if (prefabPosition.z == 1)
+                    {
+                        // If the position has z as 1, spawn a dust storm in the mission.
+                        hasDust = true;
+                    }
+                    else if (prefabPosition.z == 2)
+                    {
+                        // If the position has z as 2, spawn fog in the mission.
+                        fogDensity = MBRandom.RandomInt(1, 32);
                     }
 
                     if (settings.ShouldOverrideRainDensity)
@@ -79,7 +76,7 @@ namespace RealisticWeather.Behaviors
                 }
                 else if (Game.Current.GameType is CustomGame)
                 {
-                    if (RealisticWeatherHelper.HasTarget(out RealisticWeatherMixin mixin))
+                    if (RealisticWeatherMixin.MixinWeakReference != null && RealisticWeatherMixin.MixinWeakReference.TryGetTarget(out RealisticWeatherMixin mixin))
                     {
                         if (mixin.SelectedRainDensity > 0f)
                         {

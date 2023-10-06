@@ -52,7 +52,5 @@ namespace RealisticWeather
                 agentDrivenProperties.MountSpeed *= GetDustEffectOnMovementSpeed(hasDust);
             }
         }
-
-        public static bool HasTarget(out RealisticWeatherMixin mixin) => RealisticWeatherMixin.MixinWeakReference.TryGetTarget(out mixin);
     }
 }

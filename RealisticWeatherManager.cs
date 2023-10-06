@@ -23,6 +23,8 @@ namespace RealisticWeather
         {
             _unusedDustPrefabEntityPool = new List<GameEntity>();
             _unusedFogPrefabEntityPool = new List<GameEntity>();
+
+            PrefabPositions = new List<Vec3>();
         }
 
         public void SetDust(bool hasDust) => HasDust = hasDust;

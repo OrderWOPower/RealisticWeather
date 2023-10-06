@@ -10,6 +10,8 @@ namespace RealisticWeather.GameModels
 {
     public class RealisticWeatherMapVisibilityModel : MapVisibilityModel
     {
+        private static readonly TextObject _lightRainText = new TextObject("{=RealisticWeather51}Light rain/snow", null);
+        private static readonly TextObject _heavyRainText = new TextObject("{=RealisticWeather52}Heavy rain/snow", null);
         private static readonly TextObject _dustText = new TextObject("{=RealisticWeather53}Dust storm", null);
         private static readonly TextObject _fogText = new TextObject("{=RealisticWeather19}Fog", null);
 
@@ -20,21 +22,27 @@ namespace RealisticWeather.GameModels
         public override ExplainedNumber GetPartySpottingRange(MobileParty party, bool includeDescriptions = false)
         {
             ExplainedNumber result = _model.GetPartySpottingRange(party, includeDescriptions);
+            Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(party.Position2D) <= 25f);
+            MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(party.Position2D);
 
-            if (RealisticWeatherManager.Current.PrefabPositions != null)
+            // Decrease party visibility if the party is in light or heavy rain/snow.
+            if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
             {
-                // Find the position of the weather prefab within 25km of the main party.
-                Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
+                result.Add(-0.25f, _lightRainText);
+            }
+            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+            {
+                result.Add(-0.5f, _heavyRainText);
+            }
 
-                // Decrease party visibility if the party is inside a dust storm or fog bank.
-                if (prefabPosition.z == 2)
-                {
-                    result.AddFactor(-0.75f, _dustText);
-                }
-                else if (prefabPosition.z == 3)
-                {
-                    result.AddFactor(-0.5f, _fogText);
-                }
+            // Decrease party visibility if the party is inside a dust storm or fog bank.
+            if (prefabPosition.z == 1)
+            {
+                result.AddFactor(-0.75f, _dustText);
+            }
+            else if (prefabPosition.z == 2)
+            {
+                result.AddFactor(-0.5f, _fogText);
             }
 
             return result;

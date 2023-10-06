@@ -14,25 +14,32 @@ namespace RealisticWeather
         protected override void OnMapScreenUpdate(float dt)
         {
             RealisticWeatherManager manager = RealisticWeatherManager.Current;
-            List<Vec3> prefabPositions = manager.PrefabPositions;
 
-            for (int i = 0; i < prefabPositions?.Count; i++)
+            foreach (Vec3 prefabPosition in manager.PrefabPositions)
             {
-                Vec2 position = prefabPositions[i].AsVec2;
+                Vec2 position = prefabPosition.AsVec2;
 
-                switch (prefabPositions[i].z)
+                switch (prefabPosition.z)
                 {
-                    case 0:
-                        AttachNewDustPrefabToVisual(position);
-                        manager.PrefabPositions[i] = position.ToVec3(2);
-
-                        break;
                     case 1:
-                        AttachNewFogPrefabToVisual(position);
-                        manager.PrefabPositions[i] = position.ToVec3(3);
+                        if (!_prefabs.ContainsKey(position))
+                        {
+                            AttachNewDustPrefabToVisual(position, out GameEntity prefab);
+
+                            _prefabs.Add(position, prefab);
+                        }
 
                         break;
-                    case 4:
+                    case 2:
+                        if (!_prefabs.ContainsKey(position))
+                        {
+                            AttachNewFogPrefabToVisual(position, out GameEntity prefab);
+
+                            _prefabs.Add(position, prefab);
+                        }
+
+                        break;
+                    case 3:
                         if (_prefabs.ContainsKey(position))
                         {
                             manager.ReleaseDustPrefab(_prefabs[position]);
@@ -41,7 +48,7 @@ namespace RealisticWeather
                         }
 
                         break;
-                    case 5:
+                    case 4:
                         if (_prefabs.ContainsKey(position))
                         {
                             manager.ReleaseFogPrefab(_prefabs[position]);
@@ -54,28 +61,24 @@ namespace RealisticWeather
             }
         }
 
-        private void AttachNewDustPrefabToVisual(Vec2 position)
+        private void AttachNewDustPrefabToVisual(Vec2 position, out GameEntity dustPrefabFromPool)
         {
             MatrixFrame identity = MatrixFrame.Identity;
-            GameEntity dustPrefabFromPool = RealisticWeatherManager.Current.GetDustPrefabFromPool();
+            dustPrefabFromPool = RealisticWeatherManager.Current.GetDustPrefabFromPool();
 
             identity.origin = position.ToVec3();
             dustPrefabFromPool.SetVisibilityExcludeParents(true);
             dustPrefabFromPool.SetGlobalFrame(identity);
-
-            _prefabs.Add(position, dustPrefabFromPool);
         }
 
-        private void AttachNewFogPrefabToVisual(Vec2 position)
+        private void AttachNewFogPrefabToVisual(Vec2 position, out GameEntity fogPrefabFromPool)
         {
             MatrixFrame identity = MatrixFrame.Identity;
-            GameEntity fogPrefabFromPool = RealisticWeatherManager.Current.GetFogPrefabFromPool();
+            fogPrefabFromPool = RealisticWeatherManager.Current.GetFogPrefabFromPool();
 
             identity.origin = position.ToVec3();
             fogPrefabFromPool.SetVisibilityExcludeParents(true);
             fogPrefabFromPool.SetGlobalFrame(identity);
-
-            _prefabs.Add(position, fogPrefabFromPool);
         }
     }
 }

@@ -22,8 +22,7 @@ namespace RealisticWeather.GameModels
         {
             finalSpeed = _model.CalculateFinalSpeed(mobileParty, finalSpeed);
 
-            // Find the dust storm prefab within 25km of the main party.
-            if (RealisticWeatherManager.Current.PrefabPositions != null && RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(mobileParty.Position2D) <= 25f).z == 2)
+            if (RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(mobileParty.Position2D) <= 25f).z == 1)
             {
                 // Decrease party speed if the party is inside a dust storm.
                 finalSpeed.AddFactor(-0.25f, _dustText);

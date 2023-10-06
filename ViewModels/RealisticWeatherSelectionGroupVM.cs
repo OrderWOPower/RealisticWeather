@@ -8,7 +8,7 @@ namespace RealisticWeather.ViewModels
     {
         public static void Postfix()
         {
-            if (RealisticWeatherHelper.HasTarget(out RealisticWeatherMixin mixin))
+            if (RealisticWeatherMixin.MixinWeakReference != null && RealisticWeatherMixin.MixinWeakReference.TryGetTarget(out RealisticWeatherMixin mixin))
             {
                 // Randomize the Rain Density and Fog Density selections.
                 mixin.RainDensitySelection.ExecuteRandomize();
