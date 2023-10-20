@@ -67,7 +67,6 @@ namespace RealisticWeather.Behaviors
             // Spawn dust storms and fog banks on the campaign map with a 5% chance.
             if (MBRandom.RandomFloat < 0.05f)
             {
-                // Find a random position on the campaign map.
                 IMapScene mapSceneWrapper = Campaign.Current.MapSceneWrapper;
                 Vec2 terrainSize = mapSceneWrapper.GetTerrainSize(), position = Vec2.Zero;
                 TerrainType terrainType = TerrainType.None;
@@ -75,6 +74,7 @@ namespace RealisticWeather.Behaviors
 
                 while (terrainType != TerrainType.Desert && (z < 10f || terrainType == TerrainType.Canyon))
                 {
+                    // Find a random position on the campaign map.
                     position = new Vec2(MBRandom.RandomFloatRanged(terrainSize.X), MBRandom.RandomFloatRanged(terrainSize.Y));
                     terrainType = mapSceneWrapper.GetTerrainTypeAtPosition(position);
                     mapSceneWrapper.GetHeightAtPoint(position, ref z);
