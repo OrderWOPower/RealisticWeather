@@ -10,10 +10,7 @@ namespace RealisticWeather.GameModels
 {
     public class RealisticWeatherMapVisibilityModel : MapVisibilityModel
     {
-        private static readonly TextObject _lightRainText = new TextObject("{=RealisticWeather51}Light rain/snow", null);
-        private static readonly TextObject _heavyRainText = new TextObject("{=RealisticWeather52}Heavy rain/snow", null);
-        private static readonly TextObject _dustText = new TextObject("{=RealisticWeather53}Dust storm", null);
-        private static readonly TextObject _fogText = new TextObject("{=RealisticWeather19}Fog", null);
+        private static readonly TextObject _lightRainText = new TextObject("{=RealisticWeather51}Light rain/snow", null), _heavyRainText = new TextObject("{=RealisticWeather52}Heavy rain/snow", null), _dustText = new TextObject("{=RealisticWeather53}Dust storm", null), _fogText = new TextObject("{=RealisticWeather19}Fog", null);
 
         private readonly MapVisibilityModel _model;
 
