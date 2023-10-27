@@ -25,11 +25,11 @@ namespace RealisticWeather.GameModels
             // Decrease party visibility if the party is in light or heavy rain/snow.
             if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
             {
-                result.Add(-0.25f, _lightRainText);
+                result.Add(-0.125f, _lightRainText);
             }
             else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
             {
-                result.Add(-0.5f, _heavyRainText);
+                result.Add(-0.25f, _heavyRainText);
             }
 
             // Decrease party visibility if the party is inside a dust storm or fog bank.
