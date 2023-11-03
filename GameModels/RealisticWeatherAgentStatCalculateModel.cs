@@ -63,7 +63,7 @@ namespace RealisticWeather.GameModels
             return codes;
         }
 
-        [HarmonyPriority(Priority.Last)]
+        [HarmonyAfter(new string[] { "com.rbmcombat" })]
         private static void Postfix(Agent agent, AgentDrivenProperties agentDrivenProperties) => RealisticWeatherHelper.ApplyWeatherEffectsOnAgent(agent, agentDrivenProperties, Mission.Current.Scene.GetRainDensity(), Mission.Current.Scene.GetFog(), RealisticWeatherManager.Current.HasDust);
 
         private static Exception Finalizer() => null;
