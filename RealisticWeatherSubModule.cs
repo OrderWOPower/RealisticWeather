@@ -20,7 +20,7 @@ namespace RealisticWeather
     public class RealisticWeatherSubModule : MBSubModuleBase
     {
         private Harmony _harmony;
-        private Type _postureLogic;
+        private Type _typeofPostureLogic;
 
         protected override void OnSubModuleLoad()
         {
@@ -50,13 +50,13 @@ namespace RealisticWeather
                 ScreenManager.OnPushScreen += OnScreenManagerPushScreen;
             }
 
-            _postureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
+            _typeofPostureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
 
             // Check whether RBM is loaded.
-            if (_postureLogic != null)
+            if (_typeofPostureLogic != null)
             {
-                _harmony.Patch(AccessTools.Method(_postureLogic, "calculateDefenderPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
-                _harmony.Patch(AccessTools.Method(_postureLogic, "calculateAttackerPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
+                _harmony.Patch(AccessTools.Method(_typeofPostureLogic, "calculateDefenderPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
+                _harmony.Patch(AccessTools.Method(_typeofPostureLogic, "calculateAttackerPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
             }
         }
 
@@ -64,10 +64,10 @@ namespace RealisticWeather
 
         public override void OnGameEnd(Game game)
         {
-            if (_postureLogic != null)
+            if (_typeofPostureLogic != null)
             {
-                _harmony.Unpatch(AccessTools.Method(_postureLogic, "calculateDefenderPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
-                _harmony.Unpatch(AccessTools.Method(_postureLogic, "calculateAttackerPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
+                _harmony.Unpatch(AccessTools.Method(_typeofPostureLogic, "calculateDefenderPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
+                _harmony.Unpatch(AccessTools.Method(_typeofPostureLogic, "calculateAttackerPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
             }
         }
 
