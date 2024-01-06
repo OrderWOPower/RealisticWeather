@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base>
+ <tags>
+  <tag language="日本語"/>
+ </tags>
+ <strings>
+  <string id="RealisticWeather01" text="なし"/>
+  <string id="RealisticWeather02" text="軽度"/>
+  <string id="RealisticWeather03" text="並"/>
+  <string id="RealisticWeather04" text="激しい"/>
+  <string id="RealisticWeather05" text="非常に激しい"/>
+  <string id="RealisticWeather06" text="砂嵐 (特殊)"/>
+  <string id="RealisticWeather07" text="雨雪の激しさ"/>
+  <string id="RealisticWeather08" text="霧の深さ"/>
+  <string id="RealisticWeather09" text="雨の激しさの上書き"/>
+  <string id="RealisticWeather10" text="雨の激しさの上書きの切り替え"/>
+  <string id="RealisticWeather11" text="雨の激しさを上書きします。デフォルトは「無効」です。"/>
+  <string id="RealisticWeather12" text="雨の激しさの上書き後の数値です。デフォルトは「0.0」です。"/>
+  <string id="RealisticWeather13" text="霧の濃さの上書き"/>
+  <string id="RealisticWeather14" text="霧の深さの上書きの切り替え"/>
+  <string id="RealisticWeather15" text="霧の濃さを上書きします。デフォルトは「無効」です。"/>
+  <string id="RealisticWeather16" text="霧の濃さの上書き後の数値です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather17" text="闘技場"/>
+  <string id="RealisticWeather18" text="雨"/>
+  <string id="RealisticWeather19" text="霧"/>
+  <string id="RealisticWeather20" text="砂嵐"/>
+  <string id="RealisticWeather21" text="闘技場で雨が降ることがあります。デフォルトは「有効」です。"/>
+  <string id="RealisticWeather22" text="闘技場で霧が発生することがあります。デフォルトは「有効」です。"/>
+  <string id="RealisticWeather23" text="闘技場で砂嵐が発生することがあります。デフォルトは「有効」です。"/>
+  <string id="RealisticWeather24" text="倍率"/>
+  <string id="RealisticWeather25" text="雨による速度低下"/>
+  <string id="RealisticWeather26" text="降雨による移動速度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather27" text="雨によるプレイヤーの命中低下"/>
+  <string id="RealisticWeather28" text="降雨によるプレイヤーの投射武器の命中精度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather29" text="雨によるAI射手の命中低下"/>
+  <string id="RealisticWeather30" text="降雨によるAI射手の命中精度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather31" text="雨による士気低下"/>
+  <string id="RealisticWeather32" text="降雨による士気低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather33" text="雨による体幹低下"/>
+  <string id="RealisticWeather34" text="降雨によるRBMの体幹ゲージへの影響の大きさの倍率です。デフォルトは1.0です。"/>
+  <string id="RealisticWeather35" text="霧によるAI射手の命中低下"/>
+  <string id="RealisticWeather36" text="霧によるAI射手の命中精度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather37" text="霧による士気低下"/>
+  <string id="RealisticWeather38" text="霧による士気低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather39" text="砂嵐による速度低下"/>
+  <string id="RealisticWeather40" text="砂嵐による移動速度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather41" text="砂嵐によるプレイヤーの命中低下"/>
+  <string id="RealisticWeather42" text="砂嵐によるプレイヤーの投射武器の命中精度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather43" text="砂嵐によるAI射手の命中低下"/>
+  <string id="RealisticWeather44" text="砂嵐によるAI射手の命中精度低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather45" text="砂嵐による士気低下"/>
+  <string id="RealisticWeather46" text="砂嵐による士気低下効果の倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather47" text="砂嵐による体幹低下"/>
+  <string id="RealisticWeather48" text="砂嵐による体幹低下砂嵐によるRBMの体幹ゲージへの影響の大きさの倍率です。デフォルトは「1.0」です。"/>
+  <string id="RealisticWeather49" text="フリーカメラモード時に非表示"/>
+  <string id="RealisticWeather50" text="RTS Cameraのフリーカメラモードでは天候エフェクトを非表示にします。天候による影響自体は適用されます。デフォルトは「無効」です。"/>
+  <string id="RealisticWeather51" text="軽い雨雪"/>
+  <string id="RealisticWeather52" text="激しい雨雪"/>
+  <string id="RealisticWeather53" text="砂嵐"/>
+ </strings>
+</base>
