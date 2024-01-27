@@ -24,7 +24,7 @@ namespace RealisticWeather
 
         protected override void OnSubModuleLoad()
         {
-            UIExtender uiExtender = new UIExtender("RealisticWeather");
+            UIExtender uiExtender = UIExtender.Create("RealisticWeather");
 
             uiExtender.Register(typeof(RealisticWeatherSubModule).Assembly);
             uiExtender.Enable();

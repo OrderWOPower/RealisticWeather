@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
 namespace RealisticWeather.GameModels
@@ -43,14 +42,12 @@ namespace RealisticWeather.GameModels
 
             for (int i = 0; i < codes.Count; i++)
             {
-                if (codes[i].operand is MethodInfo method && method == AccessTools.Method(typeof(Scene), "GetFog"))
+                if (codes[i].operand is MethodInfo method && method == AccessTools.PropertyGetter(typeof(AgentDrivenProperties), "AiShooterError"))
                 {
+                    codes[i - 2].opcode = OpCodes.Nop;
                     code = codes[i];
-                    startIndex = i + 2;
-                }
-                else if (codes[i].operand is 0.3f)
-                {
-                    endIndex = i + 6;
+                    startIndex = i - 1;
+                    endIndex = i + 3;
                 }
             }
 
