@@ -141,32 +141,28 @@ namespace RealisticWeather.Behaviors
 
                 if (rainDensity > 0f)
                 {
+                    Mesh skyboxMesh = scene.GetSkyboxMesh();
+                    Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
                     GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
-                    int season = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season;
+                    bool isWinter = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season == 3;
+
+                    // Change the skybox texture to an overcast sky.
+                    skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
+                    skyboxMesh.SetMaterial(skyboxMaterial);
 
                     if (rainPrefab != null)
                     {
-                        Mesh skyboxMesh = scene.GetSkyboxMesh();
-                        Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
-
-                        // Change the skybox texture to an overcast sky.
-                        skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
-                        skyboxMesh.SetMaterial(skyboxMaterial);
-
                         foreach (GameEntity entity in rainPrefab.GetChildren())
                         {
-                            if (entity.Name != "rain_far")
-                            {
-                                // Multiply the rain particle emission rate according to rain density.
-                                entity.SetRuntimeEmissionRateMultiplier((20 * (rainDensity - 0.7f)) + 1);
-                            }
-                            else
+                            MatrixFrame rainFrame;
+
+                            if (entity.Name == "rain_far")
                             {
                                 for (int i = 1; i < (40 * (rainDensity - 0.85f)) + 1; i++)
                                 {
                                     Mesh rainMesh = entity.GetFirstMesh().CreateCopy();
-                                    MatrixFrame rainFrame = rainMesh.GetLocalFrame();
 
+                                    rainFrame = rainMesh.GetLocalFrame();
                                     rainFrame.Advance(MBRandom.RandomFloat * 10);
                                     rainFrame.Elevate(MBRandom.RandomFloat * 10);
                                     rainFrame.Strafe(MBRandom.RandomFloat * 10);
@@ -175,20 +171,33 @@ namespace RealisticWeather.Behaviors
                                     entity.AddMesh(rainMesh);
                                 }
                             }
+                            else if (isWinter)
+                            {
+                                rainFrame = entity.GetFrame();
+                                rainFrame.Scale(rainFrame.GetScale() * 2);
+                                entity.SetFrame(ref rainFrame);
+                                // Multiply the snow particle emission rate according to rain density.
+                                entity.SetRuntimeEmissionRateMultiplier((40 * (rainDensity - 0.7f)) + 2);
+                            }
+                            else
+                            {
+                                // Multiply the rain particle emission rate according to rain density.
+                                entity.SetRuntimeEmissionRateMultiplier((20 * (rainDensity - 0.7f)) + 1);
+                            }
                         }
                     }
 
                     if (rainDensity >= 0.7f && rainDensity < 0.775f)
                     {
-                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(season != 3 ? "rain_light" : "snow_light"), scene);
+                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_light" : "snow_light"), scene);
                     }
                     else if (rainDensity >= 0.775f && rainDensity < 0.925f)
                     {
-                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(season != 3 ? "rain_moderate" : "snow_moderate"), scene);
+                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_moderate" : "snow_moderate"), scene);
                     }
                     else if (rainDensity >= 0.925f)
                     {
-                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(season != 3 ? "rain_heavy" : "snow_heavy"), scene);
+                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_heavy" : "snow_heavy"), scene);
                     }
 
                     // Play the rain ambient sound.
