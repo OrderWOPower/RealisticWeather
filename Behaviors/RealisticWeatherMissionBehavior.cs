@@ -156,7 +156,15 @@ namespace RealisticWeather.Behaviors
                         {
                             MatrixFrame rainFrame;
 
-                            if (entity.Name == "rain_far")
+                            if (entity.Name != "rain_far")
+                            {
+                                rainFrame = entity.GetFrame();
+                                rainFrame.Scale(rainFrame.GetScale() * 2);
+                                entity.SetFrame(ref rainFrame);
+                                // Multiply the rain particle emission rate according to rain density.
+                                entity.SetRuntimeEmissionRateMultiplier((40 * (rainDensity - 0.7f)) + 2);
+                            }
+                            else
                             {
                                 for (int i = 1; i < (40 * (rainDensity - 0.85f)) + 1; i++)
                                 {
@@ -170,19 +178,6 @@ namespace RealisticWeather.Behaviors
                                     // Add copies of the background rain mesh to the scene according to rain density.
                                     entity.AddMesh(rainMesh);
                                 }
-                            }
-                            else if (isWinter)
-                            {
-                                rainFrame = entity.GetFrame();
-                                rainFrame.Scale(rainFrame.GetScale() * 2);
-                                entity.SetFrame(ref rainFrame);
-                                // Multiply the snow particle emission rate according to rain density.
-                                entity.SetRuntimeEmissionRateMultiplier((40 * (rainDensity - 0.7f)) + 2);
-                            }
-                            else
-                            {
-                                // Multiply the rain particle emission rate according to rain density.
-                                entity.SetRuntimeEmissionRateMultiplier((20 * (rainDensity - 0.7f)) + 1);
                             }
                         }
                     }
