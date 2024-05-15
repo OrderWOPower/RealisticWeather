@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SandBox;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -68,28 +69,19 @@ namespace RealisticWeather.Behaviors
             if (MBRandom.RandomFloat < 0.05f)
             {
                 IMapScene mapSceneWrapper = Campaign.Current.MapSceneWrapper;
-                Vec2 terrainSize = mapSceneWrapper.GetTerrainSize(), position = Vec2.Zero;
-                TerrainType terrainType = TerrainType.None;
-                float z = 0f;
+                List<Vec2> positions = new List<Vec2>();
+                Vec2 position = Vec2.Zero;
 
-                while (terrainType != TerrainType.Desert && (z < 10f || terrainType == TerrainType.Canyon))
+                for (int i = 0; i < mapSceneWrapper.GetNumberOfNavigationMeshFaces(); i++)
                 {
-                    // Find a random position on the campaign map.
-                    position = new Vec2(MBRandom.RandomFloatRanged(terrainSize.X), MBRandom.RandomFloatRanged(terrainSize.Y));
-                    terrainType = mapSceneWrapper.GetTerrainTypeAtPosition(position);
-                    mapSceneWrapper.GetHeightAtPoint(position, ref z);
+                    positions.Add(mapSceneWrapper.GetNavigationMeshCenterPosition(new PathFaceRecord(i, -1, -1)));
                 }
 
-                if (terrainType == TerrainType.Desert)
-                {
-                    // For dust storms, add the position to _prefabPositions converted to Vec3 with z as 1.
-                    _prefabPositions.Add(position.ToVec3(1));
-                }
-                else if (z >= 10f && terrainType != TerrainType.Canyon)
-                {
-                    // For fog banks, add the position to _prefabPositions converted to Vec3 with z as 2.
-                    _prefabPositions.Add(position.ToVec3(2));
-                }
+                position = positions.GetRandomElementWithPredicate(p => mapSceneWrapper.GetTerrainTypeAtPosition(p) == TerrainType.Desert || (((MapScene)mapSceneWrapper).Scene.GetTerrainHeight(p) >= 10f && mapSceneWrapper.GetTerrainTypeAtPosition(p) != TerrainType.Canyon));
+
+                // For dust storms, add the position to _prefabPositions converted to Vec3 with z as 1.
+                // For fog banks, add the position to _prefabPositions converted to Vec3 with z as 2.
+                _prefabPositions.Add(mapSceneWrapper.GetTerrainTypeAtPosition(position) == TerrainType.Desert ? position.ToVec3(1) : position.ToVec3(2));
             }
 
             RealisticWeatherManager.Current.SetPrefabPositions(_prefabPositions);
