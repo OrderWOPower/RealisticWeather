@@ -70,7 +70,7 @@ namespace RealisticWeather.Behaviors
             {
                 IMapScene mapSceneWrapper = Campaign.Current.MapSceneWrapper;
                 List<Vec2> positions = new List<Vec2>();
-                Vec2 position = Vec2.Zero;
+                Vec2 position;
 
                 for (int i = 0; i < mapSceneWrapper.GetNumberOfNavigationMeshFaces(); i++)
                 {
