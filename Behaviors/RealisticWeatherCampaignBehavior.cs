@@ -78,10 +78,13 @@ namespace RealisticWeather.Behaviors
                 }
 
                 position = positions.GetRandomElementWithPredicate(p => mapSceneWrapper.GetTerrainTypeAtPosition(p) == TerrainType.Desert || (((MapScene)mapSceneWrapper).Scene.GetTerrainHeight(p) >= 10f && mapSceneWrapper.GetTerrainTypeAtPosition(p) != TerrainType.Canyon));
-
-                // For dust storms, add the position to _prefabPositions converted to Vec3 with z as 1.
-                // For fog banks, add the position to _prefabPositions converted to Vec3 with z as 2.
-                _prefabPositions.Add(mapSceneWrapper.GetTerrainTypeAtPosition(position) == TerrainType.Desert ? position.ToVec3(1) : position.ToVec3(2));
+                
+                if (position != Vec2.Zero)
+                {
+                    // For dust storms, add the position to _prefabPositions converted to Vec3 with z as 1.
+                    // For fog banks, add the position to _prefabPositions converted to Vec3 with z as 2.
+                    _prefabPositions.Add(mapSceneWrapper.GetTerrainTypeAtPosition(position) == TerrainType.Desert ? position.ToVec3(1) : position.ToVec3(2));
+                }
             }
 
             RealisticWeatherManager.Current.SetPrefabPositions(_prefabPositions);
