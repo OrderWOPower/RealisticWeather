@@ -120,7 +120,7 @@ namespace RealisticWeather.Behaviors
                     terrainSize.y = nodeDimension.Y * nodeSize;
                     GameEntity.Instantiate(scene, "dust_prefab_entity", new MatrixFrame(Mat3.Identity, (terrainSize / 2).ToVec3()));
                     // Decrease the sky brightness.
-                    scene.SetSkyBrightness(scene.TimeOfDay < 12 ? ((MathF.Pow(2, scene.TimeOfDay) - 1) / 10) : ((MathF.Pow(2, 24 - scene.TimeOfDay) - 1) / 10));
+                    scene.SetSkyBrightness((MathF.Pow(2, scene.TimeOfDay < 12 ? scene.TimeOfDay : 24 - scene.TimeOfDay) - 1) / 10);
                     // Apply the "Aserai Harsh" color grade.
                     scene.SetSceneColorGradeIndex(23);
                     RealisticWeatherManager.Current.SetDust(true);
