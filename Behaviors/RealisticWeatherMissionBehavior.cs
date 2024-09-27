@@ -2,6 +2,7 @@
 using SandBox.Missions.MissionLogics.Arena;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -33,10 +34,23 @@ namespace RealisticWeather.Behaviors
 
                 if (Game.Current.GameType is Campaign)
                 {
+                    MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.Position2D);
+                    Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
-                    // Find the position of the weather prefab within 25km of the main party.
-                    Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
+                    if (weatherEventInPosition != MapWeatherModel.WeatherEvent.Clear)
+                    {
+                        rainDensity = scene.GetRainDensity();
+
+                        if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
+                        {
+                            rainDensity += MBRandom.RandomFloatRanged(0.001f, 0.149f);
+                        }
+                        else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
+                        {
+                            rainDensity += MBRandom.RandomFloatRanged(0.001f, 0.299f);
+                        }
+                    }
 
                     if (prefabPosition.z == 1)
                     {
@@ -162,11 +176,11 @@ namespace RealisticWeather.Behaviors
                                 rainFrame.Scale(rainFrame.GetScale() * 2);
                                 entity.SetFrame(ref rainFrame);
                                 // Multiply the rain particle emission rate according to rain density.
-                                entity.SetRuntimeEmissionRateMultiplier((40 * (rainDensity - 0.7f)) + 2);
+                                entity.SetRuntimeEmissionRateMultiplier((40 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
                             }
                             else
                             {
-                                for (int i = 1; i < (40 * (rainDensity - 0.85f)) + 1; i++)
+                                for (int i = 1; i < (40 * MathF.Max(rainDensity - 0.85f, 0f)) + 1; i++)
                                 {
                                     Mesh rainMesh = entity.GetFirstMesh().CreateCopy();
 
@@ -182,15 +196,15 @@ namespace RealisticWeather.Behaviors
                         }
                     }
 
-                    if (rainDensity >= 0.7f && rainDensity < 0.775f)
+                    if (rainDensity >= 0.7f && rainDensity < 0.8f)
                     {
                         _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_light" : "snow_light"), scene);
                     }
-                    else if (rainDensity >= 0.775f && rainDensity < 0.925f)
+                    else if (rainDensity >= 0.8f && rainDensity < 0.9f)
                     {
                         _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_moderate" : "snow_moderate"), scene);
                     }
-                    else if (rainDensity >= 0.925f)
+                    else if (rainDensity >= 0.9f)
                     {
                         _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_heavy" : "snow_heavy"), scene);
                     }
