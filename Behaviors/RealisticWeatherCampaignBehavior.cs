@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.Core;
@@ -28,12 +27,9 @@ namespace RealisticWeather.Behaviors
             {
                 dataStore.SyncData("_prefabPositions", ref _prefabPositions);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (dataStore.IsLoading)
-                {
-                    InformationManager.DisplayMessage(new InformationMessage(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name + ": Error loading save file!"));
-                }
+                InformationManager.DisplayMessage(new InformationMessage(ex.ToString()));
             }
         }
 
