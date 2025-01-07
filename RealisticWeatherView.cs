@@ -16,11 +16,11 @@ namespace RealisticWeather
             GameEntity prefab = null;
             RealisticWeatherManager manager = RealisticWeatherManager.Current;
 
-            foreach (Vec3 prefabPosition in manager.PrefabPositions)
+            foreach (Vec3 weatherEventPosition in manager.WeatherEventPositions)
             {
-                Vec2 position = prefabPosition.AsVec2;
+                Vec2 position = weatherEventPosition.AsVec2;
 
-                switch (prefabPosition.z)
+                switch (weatherEventPosition.z)
                 {
                     case 1:
                         if (!_prefabs.TryGetValue(position, out _))

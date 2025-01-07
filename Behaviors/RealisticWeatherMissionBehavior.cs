@@ -35,7 +35,7 @@ namespace RealisticWeather.Behaviors
                 if (Game.Current.GameType is Campaign)
                 {
                     MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.Position2D);
-                    Vec3 prefabPosition = RealisticWeatherManager.Current.PrefabPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
+                    Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
                     if (weatherEventInPosition != MapWeatherModel.WeatherEvent.Clear)
@@ -52,12 +52,12 @@ namespace RealisticWeather.Behaviors
                         }
                     }
 
-                    if (prefabPosition.z == 1)
+                    if (weatherEventPosition.z == 1)
                     {
                         // If the position has z as 1, spawn a dust storm in the mission.
                         hasDust = true;
                     }
-                    else if (prefabPosition.z == 2)
+                    else if (weatherEventPosition.z == 2)
                     {
                         // If the position has z as 2, spawn fog in the mission.
                         fogDensity = MBRandom.RandomInt(1, 32);

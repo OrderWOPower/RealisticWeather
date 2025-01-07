@@ -17,19 +17,19 @@ namespace RealisticWeather
 
         public bool HasDust { get; set; }
 
-        public List<Vec3> PrefabPositions { get; set; }
+        public List<Vec3> WeatherEventPositions { get; set; }
 
         public RealisticWeatherManager()
         {
             _unusedDustPrefabEntityPool = new List<GameEntity>();
             _unusedFogPrefabEntityPool = new List<GameEntity>();
 
-            PrefabPositions = new List<Vec3>();
+            WeatherEventPositions = new List<Vec3>();
         }
 
         public void SetDust(bool hasDust) => HasDust = hasDust;
 
-        public void SetPrefabPositions(List<Vec3> prefabPositions) => PrefabPositions = prefabPositions;
+        public void SetWeatherEventPositions(List<Vec3> weatherEventPositions) => WeatherEventPositions = weatherEventPositions;
 
         public GameEntity GetDustPrefabFromPool()
         {
