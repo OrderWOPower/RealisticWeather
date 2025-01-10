@@ -38,18 +38,17 @@ namespace RealisticWeather.Behaviors
                     Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
-                    if (weatherEventInPosition != MapWeatherModel.WeatherEvent.Clear)
+                    if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
                     {
-                        rainDensity = scene.GetRainDensity();
-
-                        if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
-                        {
-                            rainDensity += MBRandom.RandomFloatRanged(0.001f, 0.149f);
-                        }
-                        else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
-                        {
-                            rainDensity += MBRandom.RandomFloatRanged(0.001f, 0.299f);
-                        }
+                        rainDensity = MBRandom.RandomFloatRanged(0.7f, 0.85f);
+                    }
+                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
+                    {
+                        rainDensity = MBRandom.RandomFloatRanged(0.55f, 0.85f);
+                    }
+                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+                    {
+                        rainDensity = MBRandom.RandomFloatRanged(0.85f, 1f);
                     }
 
                     if (weatherEventPosition.z == 1)
