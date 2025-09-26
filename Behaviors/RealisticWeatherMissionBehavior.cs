@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using SandBox.Missions.MissionLogics.Arena;
 using System.Linq;
+using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
@@ -14,7 +15,6 @@ namespace RealisticWeather.Behaviors
 {
     public class RealisticWeatherMissionBehavior : MissionBehavior
     {
-        private bool _hasTicked;
         private SoundEvent _rainSound, _dustSound;
 
         public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
@@ -24,8 +24,6 @@ namespace RealisticWeather.Behaviors
             Scene scene = Mission.Scene;
 
             RealisticWeatherManager.Current.SetDust(false);
-
-            _hasTicked = false;
 
             if (!scene.IsAtmosphereIndoor)
             {
@@ -142,12 +140,16 @@ namespace RealisticWeather.Behaviors
                     // Play the dust storm ambient sound.
                     _dustSound.Play();
                 }
+
+                TickAfterStart();
             }
         }
 
-        public override void OnMissionTick(float dt)
+        private async void TickAfterStart()
         {
-            if (!_hasTicked)
+            await Task.Delay(1);
+
+            if (Mission != null)
             {
                 Scene scene = Mission.Scene;
                 float rainDensity = scene.GetRainDensity();
@@ -193,8 +195,6 @@ namespace RealisticWeather.Behaviors
                     // Play the rain ambient sound.
                     _rainSound?.Play();
                 }
-
-                _hasTicked = true;
             }
         }
 
