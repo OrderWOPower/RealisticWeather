@@ -34,8 +34,8 @@ namespace RealisticWeather.Behaviors
 
                 if (Game.Current.GameType is Campaign)
                 {
-                    MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.Position2D);
-                    Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.Position2D) <= 25f);
+                    MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.GetPosition2D);
+                    Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.GetPosition2D) <= 20f);
                     RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
                     if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
@@ -169,29 +169,11 @@ namespace RealisticWeather.Behaviors
                         {
                             MatrixFrame rainFrame;
 
-                            if (entity.Name != "rain_far")
-                            {
-                                rainFrame = entity.GetFrame();
-                                rainFrame.Scale(rainFrame.GetScale() * 2);
-                                entity.SetFrame(ref rainFrame);
-                                // Multiply the rain particle emission rate according to rain density.
-                                entity.SetRuntimeEmissionRateMultiplier((40 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
-                            }
-                            else
-                            {
-                                for (int i = 1; i < (40 * MathF.Max(rainDensity - 0.85f, 0f)) + 1; i++)
-                                {
-                                    Mesh rainMesh = entity.GetFirstMesh().CreateCopy();
-
-                                    rainFrame = rainMesh.GetLocalFrame();
-                                    rainFrame.Advance(MBRandom.RandomFloat * 10);
-                                    rainFrame.Elevate(MBRandom.RandomFloat * 10);
-                                    rainFrame.Strafe(MBRandom.RandomFloat * 10);
-                                    rainMesh.SetLocalFrame(rainFrame);
-                                    // Add copies of the background rain mesh to the scene according to rain density.
-                                    entity.AddMesh(rainMesh);
-                                }
-                            }
+                            rainFrame = entity.GetFrame();
+                            rainFrame.Scale(rainFrame.GetScale() * 2);
+                            entity.SetFrame(ref rainFrame);
+                            // Multiply the rain particle emission rate according to rain density.
+                            entity.SetRuntimeEmissionRateMultiplier((20 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
                         }
                     }
 

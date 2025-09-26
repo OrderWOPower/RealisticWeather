@@ -78,7 +78,7 @@ namespace RealisticWeather.Behaviors
             // Spawn dust storms on the campaign map with a 10% chance.
             if (MBRandom.RandomFloat < 0.1f)
             {
-                Vec2 position = _positions.GetRandomElementWithPredicate(p => Campaign.Current.MapSceneWrapper.GetTerrainTypeAtPosition(p) == TerrainType.Desert);
+                Vec2 position = _positions.GetRandomElementWithPredicate(p => Campaign.Current.MapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Desert);
 
                 if (position != Vec2.Zero)
                 {
@@ -91,7 +91,7 @@ namespace RealisticWeather.Behaviors
             // Spawn fog banks on the campaign map with a 20% chance.
             if (MBRandom.RandomFloat < 0.2f)
             {
-                Vec2 position = _positions.GetRandomElementWithPredicate(p => Campaign.Current.MapSceneWrapper.GetTerrainTypeAtPosition(p) == TerrainType.Forest);
+                Vec2 position = _positions.GetRandomElementWithPredicate(p => Campaign.Current.MapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Forest);
 
                 if (position != Vec2.Zero)
                 {

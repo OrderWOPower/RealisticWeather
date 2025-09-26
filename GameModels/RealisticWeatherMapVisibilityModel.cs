@@ -19,8 +19,8 @@ namespace RealisticWeather.GameModels
         public override ExplainedNumber GetPartySpottingRange(MobileParty party, bool includeDescriptions = false)
         {
             ExplainedNumber result = _model.GetPartySpottingRange(party, includeDescriptions);
-            Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(party.Position2D) <= 25f);
-            MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(party.Position2D);
+            Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(party.GetPosition2D) <= 20f);
+            MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(party.GetPosition2D);
 
             // Decrease party visibility if the party is in light or heavy rain/snow.
             if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
@@ -50,5 +50,7 @@ namespace RealisticWeather.GameModels
         public override float GetPartyRelativeInspectionRange(IMapPoint party) => _model.GetPartyRelativeInspectionRange(party);
 
         public override float GetPartySpottingDifficulty(MobileParty spotterParty, MobileParty party) => _model.GetPartySpottingDifficulty(spotterParty, party);
+
+        public override float GetPartySpottingRangeBase(MobileParty party) => _model.GetPartySpottingRangeBase(party);
     }
 }

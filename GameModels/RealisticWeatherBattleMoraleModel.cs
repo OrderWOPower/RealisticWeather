@@ -24,5 +24,9 @@ namespace RealisticWeather.GameModels
         public override bool CanPanicDueToMorale(Agent agent) => _model.CanPanicDueToMorale(agent);
 
         public override float GetAverageMorale(Formation formation) => _model.GetAverageMorale(formation);
+
+        public override float CalculateMoraleChangeOnShipSunk(IShipOrigin shipOrigin) => _model.CalculateMoraleChangeOnShipSunk(shipOrigin);
+
+        public override float CalculateMoraleOnRamming(Agent agent) => _model.CalculateMoraleOnRamming(agent);
     }
 }
