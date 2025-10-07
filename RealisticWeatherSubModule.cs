@@ -5,7 +5,6 @@ using RealisticWeather.GameModels;
 using RealisticWeather.Logics;
 using SandBox.View.Map;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
@@ -35,17 +34,15 @@ namespace RealisticWeather
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
-            IEnumerable<GameModel> models = gameStarterObject.Models;
-
-            gameStarterObject.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)models.Last(model => model is BattleMoraleModel)));
+            gameStarterObject.AddModel(new RealisticWeatherBattleMoraleModel((BattleMoraleModel)gameStarterObject.Models.Last(model => model is BattleMoraleModel)));
 
             if (game.GameType is Campaign)
             {
                 CampaignGameStarter campaignGameStarter = (CampaignGameStarter)gameStarterObject;
 
-                campaignGameStarter.AddModel(new RealisticWeatherPartyMoraleModel((PartyMoraleModel)models.Last(model => model is PartyMoraleModel)));
-                campaignGameStarter.AddModel(new RealisticWeatherPartySpeedModel((PartySpeedModel)models.Last(model => model is PartySpeedModel)));
-                campaignGameStarter.AddModel(new RealisticWeatherMapVisibilityModel((MapVisibilityModel)models.Last(model => model is MapVisibilityModel)));
+                campaignGameStarter.AddModel(new RealisticWeatherPartyMoraleModel(campaignGameStarter.GetModel<PartyMoraleModel>()));
+                campaignGameStarter.AddModel(new RealisticWeatherPartySpeedModel(campaignGameStarter.GetModel<PartySpeedModel>()));
+                campaignGameStarter.AddModel(new RealisticWeatherMapVisibilityModel(campaignGameStarter.GetModel<MapVisibilityModel>()));
                 campaignGameStarter.AddBehavior(new RealisticWeatherCampaignBehavior());
                 ScreenManager.OnPushScreen += OnScreenManagerPushScreen;
             }
