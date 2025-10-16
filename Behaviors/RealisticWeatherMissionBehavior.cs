@@ -28,7 +28,7 @@ namespace RealisticWeather.Behaviors
             if (!scene.IsAtmosphereIndoor)
             {
                 float rainDensity = -1f, fogDensity = 0f;
-                bool hasDust = false, isArenaMission = Mission.HasMissionBehavior<ArenaAgentStateDeciderLogic>();
+                bool hasDust = false;
 
                 if (Game.Current.GameType is Campaign)
                 {
@@ -70,19 +70,22 @@ namespace RealisticWeather.Behaviors
                         fogDensity = settings.OverriddenFogDensity;
                     }
 
-                    if (isArenaMission && !settings.CanArenaHaveRain)
+                    if (Mission.HasMissionBehavior<ArenaAgentStateDeciderLogic>())
                     {
-                        rainDensity = 0f;
-                    }
+                        if (!settings.CanArenaHaveRain)
+                        {
+                            rainDensity = 0f;
+                        }
 
-                    if (isArenaMission && !settings.CanArenaHaveFog)
-                    {
-                        fogDensity = 1f;
-                    }
+                        if (!settings.CanArenaHaveFog)
+                        {
+                            fogDensity = 1f;
+                        }
 
-                    if (isArenaMission && !settings.CanArenaHaveDust)
-                    {
-                        hasDust = false;
+                        if (!settings.CanArenaHaveDust)
+                        {
+                            hasDust = false;
+                        }
                     }
                 }
                 else if (Game.Current.GameType is CustomGame)
@@ -169,9 +172,8 @@ namespace RealisticWeather.Behaviors
                     {
                         foreach (GameEntity entity in rainPrefab.GetChildren())
                         {
-                            MatrixFrame rainFrame;
+                            MatrixFrame rainFrame = entity.GetFrame();
 
-                            rainFrame = entity.GetFrame();
                             rainFrame.Scale(rainFrame.GetScale() * 2);
                             entity.SetFrame(ref rainFrame);
                             // Multiply the rain particle emission rate according to rain density.
