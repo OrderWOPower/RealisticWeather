@@ -144,11 +144,11 @@ namespace RealisticWeather.Behaviors
                     _dustSound.Play();
                 }
 
-                TickAfterStart();
+                DelayedAfterStart();
             }
         }
 
-        private async void TickAfterStart()
+        private async void DelayedAfterStart()
         {
             await Task.Delay(1);
 
@@ -161,7 +161,7 @@ namespace RealisticWeather.Behaviors
                 {
                     Mesh skyboxMesh = scene.GetSkyboxMesh();
                     Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
-                    GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
+                    GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_light_prefab_entity") ?? scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
                     bool isWinter = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season == 3;
 
                     // Change the skybox texture to an overcast sky.
@@ -176,8 +176,20 @@ namespace RealisticWeather.Behaviors
 
                             rainFrame.Scale(rainFrame.GetScale() * 2);
                             entity.SetFrame(ref rainFrame);
+
                             // Multiply the rain particle emission rate according to rain density.
-                            entity.SetRuntimeEmissionRateMultiplier((20 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
+                            if (entity.Name == "psys_game_rain")
+                            {
+                                entity.SetRuntimeEmissionRateMultiplier((40 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
+                            }
+                            else if (entity.Name == "psys_game_snow")
+                            {
+                                entity.SetRuntimeEmissionRateMultiplier((20 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
+                            }
+                            else
+                            {
+                                entity.SetRuntimeEmissionRateMultiplier(2);
+                            }
                         }
                     }
 

@@ -17,10 +17,10 @@ namespace RealisticWeather.Logics
         {
             if (RealisticWeatherSettings.Instance.ShouldHideInFreeCamera)
             {
-                Scene scene = ((Mission)AccessTools.Property(AccessTools.TypeByName("SwitchFreeCameraLogic"), "Mission").GetValue(__instance)).Scene;
+                Scene scene = Mission.Current.Scene;
 
                 // Hide weather visuals in RTS Camera's free camera mode.
-                (scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity") ?? scene.GetFirstEntityWithName("dust_prefab_entity"))?.SetVisibilityExcludeParents(!___IsSpectatorCamera);
+                (scene.GetFirstEntityWithName("rain_light_prefab_entity") ?? scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity") ?? scene.GetFirstEntityWithName("dust_prefab_entity"))?.SetVisibilityExcludeParents(!___IsSpectatorCamera);
             }
         }
     }
