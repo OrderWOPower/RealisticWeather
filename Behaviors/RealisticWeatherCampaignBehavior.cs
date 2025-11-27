@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
@@ -65,6 +66,8 @@ namespace RealisticWeather.Behaviors
 
         private void OnHourlyTick()
         {
+            IMapScene mapSceneWrapper = Campaign.Current.MapSceneWrapper;
+
             for (int i = 0; i < _weatherEventPositions.Count; i++)
             {
                 // Despawn weather events on the campaign map with a 5% chance for every hour of the weather event's lifetime.
@@ -78,7 +81,7 @@ namespace RealisticWeather.Behaviors
             // Spawn dust storms on the campaign map with a 10% chance.
             if (MBRandom.RandomFloat < 0.1f)
             {
-                Vec2 position = _positions.GetRandomElementWithPredicate(p => Campaign.Current.MapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Desert);
+                Vec2 position = _positions.GetRandomElementWithPredicate(p => mapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Desert);
 
                 if (position != Vec2.Zero)
                 {
@@ -91,7 +94,7 @@ namespace RealisticWeather.Behaviors
             // Spawn fog banks on the campaign map with a 20% chance.
             if (MBRandom.RandomFloat < 0.2f)
             {
-                Vec2 position = _positions.GetRandomElementWithPredicate(p => Campaign.Current.MapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Forest);
+                Vec2 position = _positions.GetRandomElementWithPredicate(p => mapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Forest || mapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, false)) == TerrainType.CoastalSea);
 
                 if (position != Vec2.Zero)
                 {

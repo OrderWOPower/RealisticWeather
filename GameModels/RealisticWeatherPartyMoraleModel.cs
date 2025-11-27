@@ -28,7 +28,7 @@ namespace RealisticWeather.GameModels
             {
                 result.Add(-5f, _lightRainText);
             }
-            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
             {
                 result.Add(-10f, _heavyRainText);
             }

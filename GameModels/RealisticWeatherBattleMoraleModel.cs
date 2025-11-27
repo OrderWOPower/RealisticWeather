@@ -27,6 +27,8 @@ namespace RealisticWeather.GameModels
 
         public override float CalculateMoraleChangeOnShipSunk(IShipOrigin shipOrigin) => _model.CalculateMoraleChangeOnShipSunk(shipOrigin);
 
-        public override float CalculateMoraleOnRamming(Agent agent) => _model.CalculateMoraleOnRamming(agent);
+        public override float CalculateMoraleOnRamming(Agent agent, IShipOrigin rammingShip, IShipOrigin rammedShip) => _model.CalculateMoraleOnRamming(agent, rammingShip, rammedShip);
+
+        public override float CalculateMoraleOnShipsConnected(Agent agent, IShipOrigin ownerShip, IShipOrigin targetShip) => _model.CalculateMoraleOnShipsConnected(agent, ownerShip, targetShip);
     }
 }

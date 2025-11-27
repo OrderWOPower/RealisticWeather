@@ -27,7 +27,7 @@ namespace RealisticWeather.GameModels
             {
                 result.Add(-0.125f, _lightRainText);
             }
-            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
             {
                 result.Add(-0.25f, _heavyRainText);
             }
@@ -52,5 +52,7 @@ namespace RealisticWeather.GameModels
         public override float GetPartySpottingDifficulty(MobileParty spotterParty, MobileParty party) => _model.GetPartySpottingDifficulty(spotterParty, party);
 
         public override float GetPartySpottingRangeBase(MobileParty party) => _model.GetPartySpottingRangeBase(party);
+
+        public override float MaximumSeeingRange() => _model.MaximumSeeingRange();
     }
 }

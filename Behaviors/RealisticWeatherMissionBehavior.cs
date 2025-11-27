@@ -44,7 +44,7 @@ namespace RealisticWeather.Behaviors
                     {
                         rainDensity = MBRandom.RandomFloatRanged(0.55f, 0.85f);
                     }
-                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
                     {
                         rainDensity = MBRandom.RandomFloatRanged(0.85f, 1f);
                     }
