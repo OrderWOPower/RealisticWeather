@@ -10,8 +10,14 @@ namespace RealisticWeather.ViewModels
     {
         private static IEnumerable<MethodBase> TargetMethods()
         {
+            MethodInfo method = AccessTools.Method(AccessTools.TypeByName("NavalCustomBattleMapSelectionGroupVM"), "RandomizeAll");
+
             yield return AccessTools.Method(typeof(MapSelectionGroupVM), "RandomizeAll");
-            yield return AccessTools.Method(AccessTools.TypeByName("NavalCustomBattleMapSelectionGroupVM"), "RandomizeAll");
+
+            if (method != null)
+            {
+                yield return method;
+            }
         }
 
         public static void Postfix()
