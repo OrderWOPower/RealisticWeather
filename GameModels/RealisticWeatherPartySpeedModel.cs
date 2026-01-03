@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
 namespace RealisticWeather.GameModels
@@ -20,7 +22,14 @@ namespace RealisticWeather.GameModels
 
         public override ExplainedNumber CalculateFinalSpeed(MobileParty mobileParty, ExplainedNumber finalSpeed)
         {
-            finalSpeed = _model.CalculateFinalSpeed(mobileParty, finalSpeed);
+            try
+            {
+                finalSpeed = _model.CalculateFinalSpeed(mobileParty, finalSpeed);
+            }
+            catch (Exception ex)
+            {
+                InformationManager.DisplayMessage(new InformationMessage(ex.ToString()));
+            }
 
             if (RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(mobileParty.GetPosition2D) <= 20f).z == 1)
             {

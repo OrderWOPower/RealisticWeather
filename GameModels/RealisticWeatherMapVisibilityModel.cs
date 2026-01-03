@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Map;
@@ -18,16 +19,26 @@ namespace RealisticWeather.GameModels
 
         public override ExplainedNumber GetPartySpottingRange(MobileParty party, bool includeDescriptions = false)
         {
-            ExplainedNumber result = _model.GetPartySpottingRange(party, includeDescriptions);
+            ExplainedNumber result;
             Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(party.GetPosition2D) <= 20f);
             MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(party.GetPosition2D);
+
+            try
+            {
+                result = _model.GetPartySpottingRange(party, includeDescriptions);
+            }
+            catch (Exception ex)
+            {
+                result = new ExplainedNumber(GetPartySpottingRangeBase(party), includeDescriptions, null);
+                InformationManager.DisplayMessage(new InformationMessage(ex.ToString()));
+            }
 
             // Decrease party visibility if the party is in light or heavy rain/snow.
             if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
             {
                 result.Add(-0.125f, _lightRainText);
             }
-            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+            else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm)
             {
                 result.Add(-0.25f, _heavyRainText);
             }

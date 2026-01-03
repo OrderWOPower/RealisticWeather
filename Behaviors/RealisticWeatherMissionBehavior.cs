@@ -27,10 +27,11 @@ namespace RealisticWeather.Behaviors
 
             if (!scene.IsAtmosphereIndoor)
             {
+                GameType gameType = Game.Current.GameType;
                 float rainDensity = -1f, fogDensity = 0f;
                 bool hasDust = false;
 
-                if (Game.Current.GameType is Campaign)
+                if (gameType is Campaign)
                 {
                     MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.GetPosition2D);
                     Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.GetPosition2D) <= 20f);
@@ -44,7 +45,7 @@ namespace RealisticWeather.Behaviors
                     {
                         rainDensity = MBRandom.RandomFloatRanged(0.55f, 0.85f);
                     }
-                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm)
                     {
                         rainDensity = MBRandom.RandomFloatRanged(0.85f, 1f);
                     }
@@ -88,7 +89,7 @@ namespace RealisticWeather.Behaviors
                         }
                     }
                 }
-                else if (Game.Current.GameType is CustomGame)
+                else if (gameType is CustomGame)
                 {
                     if (RealisticWeatherMixin.MixinWeakReference != null && RealisticWeatherMixin.MixinWeakReference.TryGetTarget(out RealisticWeatherMixin mixin))
                     {
@@ -105,10 +106,27 @@ namespace RealisticWeather.Behaviors
                         hasDust = mixin.SelectedFogDensity == 0f;
                     }
                 }
+                else if (gameType.GetType() == AccessTools.TypeByName("NavalCustomGame"))
+                {
+                    if (RealisticWeatherNavalMixin.MixinWeakReference != null && RealisticWeatherNavalMixin.MixinWeakReference.TryGetTarget(out RealisticWeatherNavalMixin navalMixin))
+                    {
+                        if (navalMixin.SelectedRainDensity > 0f)
+                        {
+                            rainDensity = navalMixin.SelectedRainDensity;
+                        }
+
+                        if (navalMixin.SelectedFogDensity > 1f)
+                        {
+                            fogDensity = navalMixin.SelectedFogDensity;
+                        }
+
+                        hasDust = navalMixin.SelectedFogDensity == 0f;
+                    }
+                }
 
                 if (rainDensity > -1f)
                 {
-                    Vec3 sunColor = new Vec3(255, 255, 255, 255);
+                    Vec3 sunColor = new Vec3(255, 255, 255);
                     float sunAltitude = (50 * MathF.Cos(MathF.PI * scene.TimeOfDay / 6)) + 50, sunIntensity = (1 - rainDensity) / 1000;
 
                     scene.SetRainDensity(rainDensity);
@@ -118,11 +136,11 @@ namespace RealisticWeather.Behaviors
 
                 if (fogDensity > 0f)
                 {
-                    Vec3 fogColor = new Vec3(1, 1, 1, 1);
+                    Vec3 fogColor = new Vec3(0.5f, 0.5f, 0.5f);
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
 
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, 0, -40);
+                    scene.SetFogAdvanced(0, 0.25f, 0);
                 }
 
                 if (hasDust && rainDensity == -1f)

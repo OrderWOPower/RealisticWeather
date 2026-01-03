@@ -7,6 +7,7 @@ namespace RealisticWeather
     {
         // Add the Rain Density selection button.
         [PrefabExtension("CustomBattleScreen", "descendant::Widget[@DataSource='{MapSelectionGroup}' and .//@Parameter.SelectorDataSource='{TimeOfDaySelection}']")]
+        //[PrefabExtension("NavalCustomBattleScreen", "descendant::Widget[@DataSource='{MapSelectionGroup}' and .//@Parameter.SelectorDataSource='{TimeOfDaySelection}']")]
         public class RainDensityPrefab : PrefabExtensionInsertPatch
         {
             public override InsertType Type => InsertType.Append;
@@ -17,6 +18,7 @@ namespace RealisticWeather
 
         // Add the Fog Density selection button.
         [PrefabExtension("CustomBattleScreen", "descendant::Widget[@DataSource='{MapSelectionGroup}' and .//@Parameter.SelectorDataSource='{RainDensitySelection}']")]
+        //[PrefabExtension("NavalCustomBattleScreen", "descendant::Widget[@DataSource='{MapSelectionGroup}' and .//@Parameter.SelectorDataSource='{RainDensitySelection}']")]
         public class FogDensityPrefab : PrefabExtensionInsertPatch
         {
             public override InsertType Type => InsertType.Append;
