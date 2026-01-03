@@ -140,7 +140,7 @@ namespace RealisticWeather.Behaviors
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
 
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, 0.25f, 0);
+                    scene.SetFogAdvanced(0, 0.1f, 0);
                 }
 
                 if (hasDust && rainDensity == -1f)
