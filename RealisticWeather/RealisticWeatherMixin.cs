@@ -19,10 +19,6 @@ namespace RealisticWeather
 
         public static WeakReference<RealisticWeatherMixin> MixinWeakReference { get; set; }
 
-        public float SelectedRainDensity { get; set; }
-
-        public float SelectedFogDensity { get; set; }
-
         public IEnumerable<(string, float)> RainDensities
         {
             get
@@ -139,8 +135,8 @@ namespace RealisticWeather
             FogDensitySelection.SelectedIndex = 0;
         }
 
-        private void OnRainDensitySelection(SelectorVM<RainDensityItemVM> selector) => SelectedRainDensity = selector.SelectedItem.RainDensity;
+        private void OnRainDensitySelection(SelectorVM<RainDensityItemVM> selector) => RealisticWeatherManager.Current.SetRainDensity(selector.SelectedItem.RainDensity);
 
-        private void OnFogDensitySelection(SelectorVM<FogDensityItemVM> selector) => SelectedFogDensity = selector.SelectedItem.FogDensity;
+        private void OnFogDensitySelection(SelectorVM<FogDensityItemVM> selector) => RealisticWeatherManager.Current.SetFogDensity(selector.SelectedItem.FogDensity);
     }
 }

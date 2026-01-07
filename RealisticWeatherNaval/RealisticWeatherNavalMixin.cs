@@ -1,6 +1,7 @@
-﻿//using Bannerlord.UIExtenderEx.Attributes;
-//using Bannerlord.UIExtenderEx.ViewModels;
-//using NavalDLC.CustomBattle.CustomBattle;
+﻿using Bannerlord.UIExtenderEx.Attributes;
+using Bannerlord.UIExtenderEx.ViewModels;
+using NavalDLC.CustomBattle.CustomBattle;
+using RealisticWeather;
 using RealisticWeather.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,20 +9,16 @@ using TaleWorlds.Core.ViewModelCollection.Selector;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace RealisticWeather
+namespace RealisticWeatherNaval
 {
-    //[ViewModelMixin("RefreshValues")]
-    public class RealisticWeatherNavalMixin// : BaseViewModelMixin<NavalCustomBattleMapSelectionGroupVM>
+    [ViewModelMixin("RefreshValues")]
+    public class RealisticWeatherNavalMixin : BaseViewModelMixin<NavalCustomBattleMapSelectionGroupVM>
     {
         private SelectorVM<RainDensityItemVM> _rainDensitySelection;
         private SelectorVM<FogDensityItemVM> _fogDensitySelection;
         private string _rainDensityText, _fogDensityText;
 
         public static WeakReference<RealisticWeatherNavalMixin> MixinWeakReference { get; set; }
-
-        public float SelectedRainDensity { get; set; }
-
-        public float SelectedFogDensity { get; set; }
 
         public IEnumerable<(string, float)> RainDensities
         {
@@ -58,7 +55,7 @@ namespace RealisticWeather
                 {
                     _rainDensitySelection = value;
 
-                    //ViewModel?.OnPropertyChangedWithValue(value, "RainDensity");
+                    ViewModel?.OnPropertyChangedWithValue(value, "RainDensity");
                 }
             }
         }
@@ -74,7 +71,7 @@ namespace RealisticWeather
                 {
                     _fogDensitySelection = value;
 
-                    //ViewModel?.OnPropertyChangedWithValue(value, "FogDensity");
+                    ViewModel?.OnPropertyChangedWithValue(value, "FogDensity");
                 }
             }
         }
@@ -90,7 +87,7 @@ namespace RealisticWeather
                 {
                     _rainDensityText = value;
 
-                    //ViewModel?.OnPropertyChangedWithValue(value, "RainDensityText");
+                    ViewModel?.OnPropertyChangedWithValue(value, "RainDensityText");
                 }
             }
         }
@@ -106,19 +103,19 @@ namespace RealisticWeather
                 {
                     _fogDensityText = value;
 
-                    //ViewModel?.OnPropertyChangedWithValue(value, "FogDensityText");
+                    ViewModel?.OnPropertyChangedWithValue(value, "FogDensityText");
                 }
             }
         }
 
-        public RealisticWeatherNavalMixin(/*NavalCustomBattleMapSelectionGroupVM mapSelectionGroupVM*/)// : base(mapSelectionGroupVM)
+        public RealisticWeatherNavalMixin(NavalCustomBattleMapSelectionGroupVM mapSelectionGroupVM) : base(mapSelectionGroupVM)
         {
             MixinWeakReference = new WeakReference<RealisticWeatherNavalMixin>(this);
             RainDensitySelection = new SelectorVM<RainDensityItemVM>(0, new Action<SelectorVM<RainDensityItemVM>>(OnRainDensitySelection));
             FogDensitySelection = new SelectorVM<FogDensityItemVM>(0, new Action<SelectorVM<FogDensityItemVM>>(OnFogDensitySelection));
         }
 
-        /*public override void OnRefresh()
+        public override void OnRefresh()
         {
             RainDensityText = new TextObject("{=RealisticWeather07}Rain/Snow Density").ToString();
             FogDensityText = new TextObject("{=RealisticWeather08}Fog Density").ToString();
@@ -137,10 +134,10 @@ namespace RealisticWeather
 
             RainDensitySelection.SelectedIndex = 0;
             FogDensitySelection.SelectedIndex = 0;
-        }*/
+        }
 
-        private void OnRainDensitySelection(SelectorVM<RainDensityItemVM> selector) => SelectedRainDensity = selector.SelectedItem.RainDensity;
+        private void OnRainDensitySelection(SelectorVM<RainDensityItemVM> selector) => RealisticWeatherManager.Current.SetRainDensity(selector.SelectedItem.RainDensity);
 
-        private void OnFogDensitySelection(SelectorVM<FogDensityItemVM> selector) => SelectedFogDensity = selector.SelectedItem.FogDensity;
+        private void OnFogDensitySelection(SelectorVM<FogDensityItemVM> selector) => RealisticWeatherManager.Current.SetFogDensity(selector.SelectedItem.FogDensity);
     }
 }
