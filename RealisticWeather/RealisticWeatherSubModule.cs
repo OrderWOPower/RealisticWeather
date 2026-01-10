@@ -23,7 +23,7 @@ namespace RealisticWeather
     {
         private Harmony _harmony;
         private Type _typeofPostureLogic;
-
+        
         protected override void OnSubModuleLoad()
         {
             UIExtender uiExtender = UIExtender.Create("RealisticWeather");
@@ -34,7 +34,7 @@ namespace RealisticWeather
             _harmony = new Harmony("mod.bannerlord.realisticweather");
             _harmony.PatchAll();
 
-            // Check whether War Sails is enabled.
+            // Check whether War Sails is loaded.
             if (Utilities.GetModulesNames().Contains("NavalDLC"))
             {
                 Assembly realisticWeatherNaval = Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "RealisticWeatherNaval.dll"));
