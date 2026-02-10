@@ -23,7 +23,7 @@ namespace RealisticWeather
     {
         private Harmony _harmony;
         private Type _typeofPostureLogic;
-        
+
         protected override void OnSubModuleLoad()
         {
             UIExtender uiExtender = UIExtender.Create("RealisticWeather");

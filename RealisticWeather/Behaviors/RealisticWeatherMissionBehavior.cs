@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using SandBox.Missions.MissionLogics.Arena;
 using System.Linq;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
@@ -71,7 +70,7 @@ namespace RealisticWeather.Behaviors
                         fogDensity = settings.OverriddenFogDensity;
                     }
 
-                    if (Mission.HasMissionBehavior<ArenaAgentStateDeciderLogic>())
+                    if (CampaignMission.Current.Location?.StringId == "arena")
                     {
                         if (!settings.CanArenaHaveRain)
                         {
@@ -120,7 +119,7 @@ namespace RealisticWeather.Behaviors
                     float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
 
                     scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, 0.1f, 0);
+                    scene.SetFogAdvanced(0, fogDensity / (CampaignMission.Current?.Location?.StringId != "arena" ? 320 : 3200), 0);
                 }
 
                 if (hasDust && rainDensity == -1f)
