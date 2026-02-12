@@ -2,10 +2,10 @@
 
 namespace RealisticWeather.ViewModels
 {
-    public class FogDensityItemVM : SelectorItemVM
-    {
-        public float FogDensity { get; set; }
+	public class FogDensityItemVM : SelectorItemVM
+	{
+		public int FogDensity { get; set; }
 
-        public FogDensityItemVM(string fogDensityName, float fogDensity) : base(fogDensityName) => FogDensity = fogDensity;
-    }
+		public FogDensityItemVM(string fogDensityName, int fogDensity) : base(fogDensityName) => FogDensity = fogDensity;
+	}
 }

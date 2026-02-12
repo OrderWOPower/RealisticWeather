@@ -12,208 +12,201 @@ using TaleWorlds.MountAndBlade.CustomBattle;
 
 namespace RealisticWeather.Behaviors
 {
-    public class RealisticWeatherMissionBehavior : MissionBehavior
-    {
-        private SoundEvent _rainSound, _dustSound;
+	public class RealisticWeatherMissionBehavior : MissionBehavior
+	{
+		private SoundEvent _rainSound, _dustSound;
 
-        public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
+		public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
 
-        public override void AfterStart()
-        {
-            Scene scene = Mission.Scene;
+		public override void AfterStart()
+		{
+			Scene scene = Mission.Scene;
 
-            RealisticWeatherManager.Current.SetDust(false);
+			RealisticWeatherManager.Current.SetDust(false);
 
-            if (!scene.IsAtmosphereIndoor)
-            {
-                GameType gameType = Game.Current.GameType;
-                float rainDensity = -1f, fogDensity = 0f;
-                bool hasDust = false;
+			if (!scene.IsAtmosphereIndoor)
+			{
+				GameType gameType = Game.Current.GameType;
+				float rainDensity = 0;
+				int fogDensity = 1;
+				bool hasDust = false;
 
-                if (gameType is Campaign)
-                {
-                    MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.GetPosition2D);
-                    Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.GetPosition2D) <= 20f);
-                    RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
+				if (gameType is Campaign)
+				{
+					MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.GetPosition2D);
+					Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.GetPosition2D) <= 20f);
+					RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
-                    if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
-                    {
-                        rainDensity = MBRandom.RandomFloatRanged(0.7f, 0.85f);
-                    }
-                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
-                    {
-                        rainDensity = MBRandom.RandomFloatRanged(0.55f, 0.85f);
-                    }
-                    else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm)
-                    {
-                        rainDensity = MBRandom.RandomFloatRanged(0.85f, 1f);
-                    }
+					if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
+					{
+						rainDensity = MBRandom.RandomFloatRanged(0.7f, 0.85f);
+					}
+					else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
+					{
+						rainDensity = MBRandom.RandomFloatRanged(0.55f, 0.85f);
+					}
+					else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm)
+					{
+						rainDensity = MBRandom.RandomFloatRanged(0.85f, 1f);
+					}
 
-                    if (weatherEventPosition.z == 1)
-                    {
-                        // If the position has z as 1, spawn a dust storm in the mission.
-                        hasDust = true;
-                    }
-                    else if (weatherEventPosition.z == 2)
-                    {
-                        // If the position has z as 2, spawn fog in the mission.
-                        fogDensity = MBRandom.RandomInt(1, 32);
-                    }
+					if (weatherEventPosition.z == 1)
+					{
+						// If the position has z as 1, spawn a dust storm in the mission.
+						hasDust = true;
+					}
+					else if (weatherEventPosition.z == 2)
+					{
+						// If the position has z as 2, spawn fog in the mission.
+						fogDensity = MBRandom.RandomInt(2, 64);
+					}
 
-                    if (settings.ShouldOverrideRainDensity)
-                    {
-                        rainDensity = settings.OverriddenRainDensity;
-                    }
+					if (settings.ShouldOverrideRainDensity)
+					{
+						rainDensity = settings.OverriddenRainDensity;
+					}
 
-                    if (settings.ShouldOverrideFogDensity)
-                    {
-                        fogDensity = settings.OverriddenFogDensity;
-                    }
+					if (settings.ShouldOverrideFogDensity)
+					{
+						fogDensity = settings.OverriddenFogDensity;
+					}
 
-                    if (CampaignMission.Current.Location?.StringId == "arena")
-                    {
-                        if (!settings.CanArenaHaveRain)
-                        {
-                            rainDensity = 0f;
-                        }
+					if (CampaignMission.Current.Location?.StringId == "arena")
+					{
+						if (!settings.CanArenaHaveRain)
+						{
+							rainDensity = 0;
+						}
 
-                        if (!settings.CanArenaHaveFog)
-                        {
-                            fogDensity = 1f;
-                        }
+						if (!settings.CanArenaHaveFog)
+						{
+							fogDensity = 1;
+						}
 
-                        if (!settings.CanArenaHaveDust)
-                        {
-                            hasDust = false;
-                        }
-                    }
-                }
-                else if (gameType is CustomGame || gameType.GetType() == AccessTools.TypeByName("NavalCustomGame"))
-                {
-                    if (RealisticWeatherManager.Current.RainDensity > 0f)
-                    {
-                        rainDensity = RealisticWeatherManager.Current.RainDensity;
-                    }
+						if (!settings.CanArenaHaveDust)
+						{
+							hasDust = false;
+						}
+					}
+				}
+				else if (gameType is CustomGame || gameType.GetType() == AccessTools.TypeByName("NavalCustomGame"))
+				{
+					rainDensity = RealisticWeatherManager.Current.RainDensity;
+					fogDensity = RealisticWeatherManager.Current.FogDensity;
+					hasDust = RealisticWeatherManager.Current.FogDensity == 0;
+				}
 
-                    if (RealisticWeatherManager.Current.FogDensity > 1f)
-                    {
-                        fogDensity = RealisticWeatherManager.Current.FogDensity;
-                    }
+				if (rainDensity > 0)
+				{
+					Vec3 sunColor = new Vec3(255, 255, 255);
+					float sunAltitude = (50 * MathF.Cos(MathF.PI * scene.TimeOfDay / 6)) + 50, sunIntensity = (1 - rainDensity) / 1000;
 
-                    hasDust = RealisticWeatherManager.Current.FogDensity == 0f;
-                }
+					scene.SetRainDensity(rainDensity);
+					// Decrease the sun intensity according to rain density.
+					scene.SetSun(ref sunColor, sunAltitude, 0, sunIntensity);
+				}
 
-                if (rainDensity > -1f)
-                {
-                    Vec3 sunColor = new Vec3(255, 255, 255);
-                    float sunAltitude = (50 * MathF.Cos(MathF.PI * scene.TimeOfDay / 6)) + 50, sunIntensity = (1 - rainDensity) / 1000;
+				if (fogDensity > 1)
+				{
+					Vec3 fogColor = new Vec3(0.5f, 0.5f, 0.5f);
+					float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
 
-                    scene.SetRainDensity(rainDensity);
-                    // Decrease the sun intensity according to rain density.
-                    scene.SetSun(ref sunColor, sunAltitude, 0, sunIntensity);
-                }
+					scene.SetFog(fogDensity, ref fogColor, fogFalloff);
+					scene.SetFogAdvanced(0, fogDensity / (CampaignMission.Current?.Location?.StringId != "arena" ? 640f : 6400f), 0);
+				}
 
-                if (fogDensity > 0f)
-                {
-                    Vec3 fogColor = new Vec3(0.5f, 0.5f, 0.5f);
-                    float fogFalloff = 0.5f * MathF.Sin(MathF.PI * scene.TimeOfDay / 24);
+				if (hasDust)
+				{
+					Vec2 terrainSize = Vec2.One;
 
-                    scene.SetFog(fogDensity, ref fogColor, fogFalloff);
-                    scene.SetFogAdvanced(0, fogDensity / (CampaignMission.Current?.Location?.StringId != "arena" ? 320 : 3200), 0);
-                }
+					scene.GetTerrainData(out Vec2i nodeDimension, out float nodeSize, out _, out _);
+					terrainSize.x = nodeDimension.X * nodeSize;
+					terrainSize.y = nodeDimension.Y * nodeSize;
+					GameEntity.Instantiate(scene, "dust_prefab_entity", new MatrixFrame(Mat3.Identity, (terrainSize / 2).ToVec3()));
+					// Decrease the sky brightness.
+					scene.SetSkyBrightness((MathF.Pow(2, scene.TimeOfDay < 12 ? scene.TimeOfDay : 24 - scene.TimeOfDay) - 1) / 10);
+					// Apply the "Aserai Harsh" color grade.
+					scene.SetSceneColorGradeIndex(23);
+					RealisticWeatherManager.Current.SetDust(true);
 
-                if (hasDust && rainDensity == -1f)
-                {
-                    Vec2 terrainSize = Vec2.One;
+					_dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
+					// Play the dust storm ambient sound.
+					_dustSound.Play();
+				}
 
-                    scene.GetTerrainData(out Vec2i nodeDimension, out float nodeSize, out _, out _);
-                    terrainSize.x = nodeDimension.X * nodeSize;
-                    terrainSize.y = nodeDimension.Y * nodeSize;
-                    GameEntity.Instantiate(scene, "dust_prefab_entity", new MatrixFrame(Mat3.Identity, (terrainSize / 2).ToVec3()));
-                    // Decrease the sky brightness.
-                    scene.SetSkyBrightness((MathF.Pow(2, scene.TimeOfDay < 12 ? scene.TimeOfDay : 24 - scene.TimeOfDay) - 1) / 10);
-                    // Apply the "Aserai Harsh" color grade.
-                    scene.SetSceneColorGradeIndex(23);
-                    RealisticWeatherManager.Current.SetDust(true);
+				DelayedAfterStart();
+			}
+		}
 
-                    _dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
-                    // Play the dust storm ambient sound.
-                    _dustSound.Play();
-                }
+		private async void DelayedAfterStart()
+		{
+			await Task.Delay(1);
 
-                DelayedAfterStart();
-            }
-        }
+			if (Mission != null)
+			{
+				Scene scene = Mission.Scene;
+				float rainDensity = scene.GetRainDensity();
 
-        private async void DelayedAfterStart()
-        {
-            await Task.Delay(1);
+				if (rainDensity > 0)
+				{
+					Mesh skyboxMesh = scene.GetSkyboxMesh();
+					Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
+					GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_light_prefab_entity") ?? scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
+					bool isWinter = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season == 3;
 
-            if (Mission != null)
-            {
-                Scene scene = Mission.Scene;
-                float rainDensity = scene.GetRainDensity();
+					// Change the skybox texture to an overcast sky.
+					skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
+					skyboxMesh.SetMaterial(skyboxMaterial);
 
-                if (rainDensity > 0f)
-                {
-                    Mesh skyboxMesh = scene.GetSkyboxMesh();
-                    Material skyboxMaterial = skyboxMesh.GetMaterial().CreateCopy();
-                    GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_light_prefab_entity") ?? scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
-                    bool isWinter = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season == 3;
+					if (rainPrefab != null)
+					{
+						foreach (GameEntity entity in rainPrefab.GetChildren())
+						{
+							MatrixFrame rainFrame = entity.GetFrame();
 
-                    // Change the skybox texture to an overcast sky.
-                    skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
-                    skyboxMesh.SetMaterial(skyboxMaterial);
+							rainFrame.Scale(rainFrame.GetScale() * 2);
+							entity.SetFrame(ref rainFrame);
 
-                    if (rainPrefab != null)
-                    {
-                        foreach (GameEntity entity in rainPrefab.GetChildren())
-                        {
-                            MatrixFrame rainFrame = entity.GetFrame();
+							// Multiply the rain particle emission rate according to rain density.
+							if (entity.Name == "psys_game_rain")
+							{
+								entity.SetRuntimeEmissionRateMultiplier((40 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
+							}
+							else if (entity.Name == "psys_game_snow")
+							{
+								entity.SetRuntimeEmissionRateMultiplier((20 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
+							}
+							else
+							{
+								entity.SetRuntimeEmissionRateMultiplier(2);
+							}
+						}
+					}
 
-                            rainFrame.Scale(rainFrame.GetScale() * 2);
-                            entity.SetFrame(ref rainFrame);
+					if (rainDensity >= 0.7f && rainDensity < 0.8f)
+					{
+						_rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_light" : "snow_light"), scene);
+					}
+					else if (rainDensity >= 0.8f && rainDensity < 0.9f)
+					{
+						_rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_moderate" : "snow_moderate"), scene);
+					}
+					else if (rainDensity >= 0.9f)
+					{
+						_rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_heavy" : "snow_heavy"), scene);
+					}
 
-                            // Multiply the rain particle emission rate according to rain density.
-                            if (entity.Name == "psys_game_rain")
-                            {
-                                entity.SetRuntimeEmissionRateMultiplier((40 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
-                            }
-                            else if (entity.Name == "psys_game_snow")
-                            {
-                                entity.SetRuntimeEmissionRateMultiplier((20 * MathF.Max(rainDensity - 0.7f, 0f)) + 2);
-                            }
-                            else
-                            {
-                                entity.SetRuntimeEmissionRateMultiplier(2);
-                            }
-                        }
-                    }
+					// Play the rain ambient sound.
+					_rainSound?.Play();
+				}
+			}
+		}
 
-                    if (rainDensity >= 0.7f && rainDensity < 0.8f)
-                    {
-                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_light" : "snow_light"), scene);
-                    }
-                    else if (rainDensity >= 0.8f && rainDensity < 0.9f)
-                    {
-                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_moderate" : "snow_moderate"), scene);
-                    }
-                    else if (rainDensity >= 0.9f)
-                    {
-                        _rainSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString(!isWinter ? "rain_heavy" : "snow_heavy"), scene);
-                    }
-
-                    // Play the rain ambient sound.
-                    _rainSound?.Play();
-                }
-            }
-        }
-
-        protected override void OnEndMission()
-        {
-            // Stop the ambient sounds.
-            _rainSound?.Stop();
-            _dustSound?.Stop();
-        }
-    }
+		protected override void OnEndMission()
+		{
+			// Stop the ambient sounds.
+			_rainSound?.Stop();
+			_dustSound?.Stop();
+		}
+	}
 }
