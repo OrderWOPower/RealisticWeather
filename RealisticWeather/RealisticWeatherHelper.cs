@@ -13,7 +13,7 @@ namespace RealisticWeather
 
 		public static float GetRainEffectOnMorale(float rainDensity) => MathF.Max(1 - (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnMoraleMultiplier), 0f);
 
-		public static float GetRainEffectOnPosture(float rainDensity) => 1 + (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnPostureMultiplier);
+		public static float GetRainEffectOnStamina(float rainDensity) => 1 + (rainDensity * RealisticWeatherSettings.Instance.RainEffectOnStaminaMultiplier);
 
 		public static float GetFogEffectOnShooterError(float fogDensity) => fogDensity > 1 ? 1 + (fogDensity / 16 * RealisticWeatherSettings.Instance.FogEffectOnShooterErrorMultiplier) : 1;
 
@@ -27,7 +27,7 @@ namespace RealisticWeather
 
 		public static float GetDustEffectOnMorale(bool hasDust) => hasDust ? MathF.Max(1 - RealisticWeatherSettings.Instance.DustEffectOnMoraleMultiplier, 0f) : 1;
 
-		public static float GetDustEffectOnPosture(bool hasDust) => hasDust ? 1 + RealisticWeatherSettings.Instance.DustEffectOnPostureMultiplier : 1;
+		public static float GetDustEffectOnStamina(bool hasDust) => hasDust ? 1 + RealisticWeatherSettings.Instance.DustEffectOnStaminaMultiplier : 1;
 
 		public static void ApplyWeatherEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, float rainDensity, float fogDensity, bool hasDust)
 		{

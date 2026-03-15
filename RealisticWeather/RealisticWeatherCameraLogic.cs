@@ -3,7 +3,7 @@ using System.Reflection;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
-namespace RealisticWeather.Logics
+namespace RealisticWeather
 {
 	[HarmonyPatch]
 	public class RealisticWeatherCameraLogic
@@ -13,7 +13,7 @@ namespace RealisticWeather.Logics
 		// Check whether RTS Camera is loaded.
 		private static bool Prepare() => TargetMethod() != null;
 
-		public static void Postfix(object __instance, bool ___IsSpectatorCamera)
+		public static void Postfix(bool ___IsSpectatorCamera)
 		{
 			if (RealisticWeatherSettings.Instance.ShouldHideInFreeCamera)
 			{

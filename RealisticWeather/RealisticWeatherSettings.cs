@@ -59,9 +59,9 @@ namespace RealisticWeather
 		[SettingPropertyGroup("{=RealisticWeather24}Multipliers", GroupOrder = 3)]
 		public float RainEffectOnMoraleMultiplier { get; set; } = 1.0f;
 
-		[SettingPropertyFloatingInteger("{=RealisticWeather33}Rain Effect on Posture", 0.0f, 2.0f, "0.0", Order = 4, RequireRestart = false, HintText = "{=RealisticWeather34}Multiplier for rain effect on RBM posture. Default is 1.0.")]
+		[SettingPropertyFloatingInteger("{=RealisticWeather33}Rain Effect on Stamina", 0.0f, 2.0f, "0.0", Order = 4, RequireRestart = false, HintText = "{=RealisticWeather34}Multiplier for rain effect on RBM stamina. Default is 1.0.")]
 		[SettingPropertyGroup("{=RealisticWeather24}Multipliers", GroupOrder = 3)]
-		public float RainEffectOnPostureMultiplier { get; set; } = 1.0f;
+		public float RainEffectOnStaminaMultiplier { get; set; } = 1.0f;
 
 		[SettingPropertyFloatingInteger("{=RealisticWeather35}Fog Effect on Shooter Error", 0.0f, 2.0f, "0.0", Order = 5, RequireRestart = false, HintText = "{=RealisticWeather36}Multiplier for fog effect on AI shooter error. Default is 1.0.")]
 		[SettingPropertyGroup("{=RealisticWeather24}Multipliers", GroupOrder = 3)]
@@ -87,9 +87,9 @@ namespace RealisticWeather
 		[SettingPropertyGroup("{=RealisticWeather24}Multipliers", GroupOrder = 3)]
 		public float DustEffectOnMoraleMultiplier { get; set; } = 1.0f;
 
-		[SettingPropertyFloatingInteger("{=RealisticWeather47}Dust Effect on Posture", 0.0f, 2.0f, "0.0", Order = 11, RequireRestart = false, HintText = "{=RealisticWeather48}Multiplier for dust effect on RBM posture. Default is 1.0.")]
+		[SettingPropertyFloatingInteger("{=RealisticWeather47}Dust Effect on Stamina", 0.0f, 2.0f, "0.0", Order = 11, RequireRestart = false, HintText = "{=RealisticWeather48}Multiplier for dust effect on RBM stamina. Default is 1.0.")]
 		[SettingPropertyGroup("{=RealisticWeather24}Multipliers", GroupOrder = 3)]
-		public float DustEffectOnPostureMultiplier { get; set; } = 1.0f;
+		public float DustEffectOnStaminaMultiplier { get; set; } = 1.0f;
 
 		[SettingPropertyBool("{=RealisticWeather49}Hide in Free Camera Mode", Order = 0, RequireRestart = false, HintText = "{=RealisticWeather50}Hide rain, snow and dust storms in RTS Camera's free camera mode. Weather effects will still apply. Disabled by default.")]
 		[SettingPropertyGroup("RTS Camera", GroupOrder = 4)]

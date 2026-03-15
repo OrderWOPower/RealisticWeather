@@ -94,10 +94,10 @@
     <Compile Include="GameModels\RealisticWeatherMapVisibilityModel.cs" />
     <Compile Include="GameModels\RealisticWeatherPartyMoraleModel.cs" />
     <Compile Include="GameModels\RealisticWeatherPartySpeedModel.cs" />
-    <Compile Include="Logics\RealisticWeatherCameraLogic.cs" />
+    <Compile Include="RealisticWeatherCameraLogic.cs" />
     <Compile Include="RealisticWeatherManager.cs" />
     <Compile Include="Behaviors\RealisticWeatherMissionBehavior.cs" />
-    <Compile Include="Logics\RealisticWeatherPostureLogic.cs" />
+    <Compile Include="RealisticWeatherStance.cs" />
     <Compile Include="RealisticWeatherSettings.cs" />
     <Compile Include="RealisticWeatherView.cs" />
     <Compile Include="ViewModels\FogDensityItemVM.cs" />

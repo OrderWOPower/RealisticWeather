@@ -36,8 +36,8 @@
     <string id="RealisticWeather30" text="Multiplier for rain effect on AI shooter error. Default is 1.0." />
     <string id="RealisticWeather31" text="Rain Effect on Morale" />
     <string id="RealisticWeather32" text="Multiplier for rain effect on morale. Default is 1.0." />
-    <string id="RealisticWeather33" text="Rain Effect on Posture" />
-    <string id="RealisticWeather34" text="Multiplier for rain effect on RBM posture. Default is 1.0." />
+    <string id="RealisticWeather33" text="Rain Effect on Stamina" />
+    <string id="RealisticWeather34" text="Multiplier for rain effect on RBM stamina. Default is 1.0." />
     <string id="RealisticWeather35" text="Fog Effect on Shooter Error" />
     <string id="RealisticWeather36" text="Multiplier for fog effect on AI shooter error. Default is 1.0." />
     <string id="RealisticWeather37" text="Fog Effect on Morale" />
@@ -50,8 +50,8 @@
     <string id="RealisticWeather44" text="Multiplier for dust effect on AI shooter error. Default is 1.0." />
     <string id="RealisticWeather45" text="Dust Effect on Morale" />
     <string id="RealisticWeather46" text="Multiplier for dust effect on morale. Default is 1.0." />
-    <string id="RealisticWeather47" text="Dust Effect on Posture" />
-    <string id="RealisticWeather48" text="Multiplier for dust effect on RBM posture. Default is 1.0." />
+    <string id="RealisticWeather47" text="Dust Effect on Stamina" />
+    <string id="RealisticWeather48" text="Multiplier for dust effect on RBM stamina. Default is 1.0." />
     <string id="RealisticWeather49" text="Hide in Free Camera Mode" />
     <string id="RealisticWeather50" text="Hide rain, snow and dust storms in RTS Camera's free camera mode. Weather effects will still apply. Disabled by default." />
     <string id="RealisticWeather51" text="Light rain/snow" />

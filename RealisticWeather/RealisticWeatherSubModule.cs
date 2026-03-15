@@ -2,7 +2,6 @@
 using HarmonyLib;
 using RealisticWeather.Behaviors;
 using RealisticWeather.GameModels;
-using RealisticWeather.Logics;
 using SandBox.View.Map;
 using System;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace RealisticWeather
 	public class RealisticWeatherSubModule : MBSubModuleBase
 	{
 		private Harmony _harmony;
-		private Type _typeofPostureLogic;
+		private Type _typeofStance;
 
 		protected override void OnSubModuleLoad()
 		{
@@ -62,13 +61,12 @@ namespace RealisticWeather
 				ScreenManager.OnPushScreen += OnScreenManagerPushScreen;
 			}
 
-			_typeofPostureLogic = AccessTools.TypeByName("RBMAI.PostureLogic+CreateMeleeBlowPatch");
+			_typeofStance = AccessTools.TypeByName("RBMAI.Stance");
 
 			// Check whether RBM is loaded.
-			if (_typeofPostureLogic != null)
+			if (_typeofStance != null)
 			{
-				_harmony.Patch(AccessTools.Method(_typeofPostureLogic, "calculateDefenderPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
-				_harmony.Patch(AccessTools.Method(_typeofPostureLogic, "calculateAttackerPostureDamage"), postfix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix")));
+				_harmony.Patch(AccessTools.Method(_typeofStance, "reduceStamina"), prefix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherStance), "Prefix")));
 			}
 		}
 
@@ -76,10 +74,9 @@ namespace RealisticWeather
 
 		public override void OnGameEnd(Game game)
 		{
-			if (_typeofPostureLogic != null)
+			if (_typeofStance != null)
 			{
-				_harmony.Unpatch(AccessTools.Method(_typeofPostureLogic, "calculateDefenderPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
-				_harmony.Unpatch(AccessTools.Method(_typeofPostureLogic, "calculateAttackerPostureDamage"), AccessTools.Method(typeof(RealisticWeatherPostureLogic), "Postfix"));
+				_harmony.Unpatch(AccessTools.Method(_typeofStance, "reduceStamina"), AccessTools.Method(typeof(RealisticWeatherStance), "Prefix"));
 			}
 		}
 
