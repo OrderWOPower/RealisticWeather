@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
@@ -102,8 +102,12 @@ namespace RealisticWeather.Behaviors
 					float sunAltitude = (50 * MathF.Cos(MathF.PI * scene.TimeOfDay / 6)) + 50, sunIntensity = (1 - rainDensity) / 1000;
 
 					scene.SetRainDensity(rainDensity);
-					// Decrease the sun intensity according to rain density.
-					scene.SetSun(ref sunColor, sunAltitude, 0, sunIntensity);
+
+					if (!(gameType is Campaign))
+					{
+						// Decrease the sun intensity according to rain density.
+						scene.SetSun(ref sunColor, sunAltitude, 0, sunIntensity);
+					}
 				}
 
 				if (fogDensity > 1)
@@ -154,9 +158,12 @@ namespace RealisticWeather.Behaviors
 					GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_light_prefab_entity") ?? scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
 					bool isWinter = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season == 3;
 
-					// Change the skybox texture to an overcast sky.
-					skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
-					skyboxMesh.SetMaterial(skyboxMaterial);
+					if (!(Game.Current.GameType is Campaign))
+					{
+						// Change the skybox texture to an overcast sky.
+						skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
+						skyboxMesh.SetMaterial(skyboxMaterial);
+					}
 
 					if (rainPrefab != null)
 					{
