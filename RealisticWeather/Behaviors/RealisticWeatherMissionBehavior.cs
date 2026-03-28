@@ -34,7 +34,7 @@ namespace RealisticWeather.Behaviors
 				if (gameType is Campaign)
 				{
 					MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.GetPosition2D);
-					Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(MobileParty.MainParty.GetPosition2D) <= 20f);
+					Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.DistanceSquared(MobileParty.MainParty.GetPosition2D) <= 400f);
 					RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
 					if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
@@ -158,12 +158,9 @@ namespace RealisticWeather.Behaviors
 					GameEntity rainPrefab = scene.GetFirstEntityWithName("rain_light_prefab_entity") ?? scene.GetFirstEntityWithName("rain_prefab_entity") ?? scene.GetFirstEntityWithName("snow_prefab_entity");
 					bool isWinter = ((MissionInitializerRecord)AccessTools.Property(typeof(Mission), "InitializerRecord").GetValue(Mission)).AtmosphereOnCampaign.TimeInfo.Season == 3;
 
-					if (!(Game.Current.GameType is Campaign))
-					{
-						// Change the skybox texture to an overcast sky.
-						skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
-						skyboxMesh.SetMaterial(skyboxMaterial);
-					}
+					// Change the skybox texture to an overcast sky.
+					skyboxMaterial.SetTexture(Material.MBTextureType.DiffuseMap, Texture.GetFromResource("sky_photo_overcast_01"));
+					skyboxMesh.SetMaterial(skyboxMaterial);
 
 					if (rainPrefab != null)
 					{

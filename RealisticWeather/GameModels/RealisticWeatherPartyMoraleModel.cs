@@ -21,7 +21,7 @@ namespace RealisticWeather.GameModels
 		public override ExplainedNumber GetEffectivePartyMorale(MobileParty party, bool includeDescription = false)
 		{
 			ExplainedNumber result;
-			Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(party.GetPosition2D) <= 20f);
+			Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.DistanceSquared(party.GetPosition2D) <= 400f);
 			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(party.GetPosition2D);
 
 			try

@@ -31,7 +31,7 @@ namespace RealisticWeather.GameModels
 				InformationManager.DisplayMessage(new InformationMessage(ex.ToString()));
 			}
 
-			if (RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.Distance(mobileParty.GetPosition2D) <= 20f).z == 1)
+			if (RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.DistanceSquared(mobileParty.GetPosition2D) <= 400f).z == 1)
 			{
 				// Decrease party speed if the party is inside a dust storm.
 				finalSpeed.AddFactor(-0.25f, _dustText);
