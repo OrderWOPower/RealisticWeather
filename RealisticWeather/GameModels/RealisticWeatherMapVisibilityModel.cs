@@ -2,7 +2,6 @@
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
-using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -29,18 +28,22 @@ namespace RealisticWeather.GameModels
 			}
 			catch (Exception ex)
 			{
-				result = new ExplainedNumber(GetPartySpottingRangeBase(party), includeDescriptions, null);
+				result = new ExplainedNumber(GetPartySeeingRangeBase(party), includeDescriptions, null);
 				InformationManager.DisplayMessage(new InformationMessage(ex.ToString()));
 			}
 
 			// Decrease party visibility if the party is in light or heavy rain/snow.
 			if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy)
 			{
-				result.Add(-0.125f, _lightRainText);
+				result.AddFactor(-0.2f, _lightRainText);
 			}
-			else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard || weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm)
+			else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.HeavyRain || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
 			{
-				result.Add(-0.25f, _heavyRainText);
+				result.AddFactor(-0.3f, _heavyRainText);
+			}
+			else if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Storm && !party.IsCurrentlyAtSea)
+			{
+				result.AddFactor(-0.4f, new TextObject("{=M6V6eCTg}Storm", null));
 			}
 
 			// Decrease party visibility if the party is inside a dust storm or fog bank.
@@ -58,12 +61,10 @@ namespace RealisticWeather.GameModels
 
 		public override float GetHideoutSpottingDistance() => _model.GetHideoutSpottingDistance();
 
-		public override float GetPartyRelativeInspectionRange(IMapPoint party) => _model.GetPartyRelativeInspectionRange(party);
-
-		public override float GetPartySpottingDifficulty(MobileParty spotterParty, MobileParty party) => _model.GetPartySpottingDifficulty(spotterParty, party);
-
-		public override float GetPartySpottingRangeBase(MobileParty party) => _model.GetPartySpottingRangeBase(party);
-
 		public override float MaximumSeeingRange() => _model.MaximumSeeingRange();
+
+		public override float GetPartySeeingRangeBase(MobileParty party) => _model.GetPartySeeingRangeBase(party);
+
+		public override float GetPartySpottingRatioForMainPartySeeingRange(MobileParty party) => _model.GetPartySpottingRatioForMainPartySeeingRange(party);
 	}
 }

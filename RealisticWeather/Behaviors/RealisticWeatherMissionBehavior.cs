@@ -71,7 +71,7 @@ namespace RealisticWeather.Behaviors
 						fogDensity = settings.OverriddenFogDensity;
 					}
 
-					if (CampaignMission.Current.Location?.StringId == "arena")
+					if (CampaignMission.Current?.Location?.StringId == "arena")
 					{
 						if (!settings.CanArenaHaveRain)
 						{
