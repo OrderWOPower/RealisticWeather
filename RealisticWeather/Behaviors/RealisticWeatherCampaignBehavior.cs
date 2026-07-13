@@ -10,13 +10,14 @@ namespace RealisticWeather.Behaviors
 {
 	public class RealisticWeatherCampaignBehavior : CampaignBehaviorBase
 	{
-		private readonly List<Vec2> _positions;
+		private readonly List<Vec2> _dustPositions, _fogPositions;
 		private List<Vec3> _weatherEventPositions;
 		private List<CampaignTime> _weatherEventTimes;
 
 		public RealisticWeatherCampaignBehavior()
 		{
-			_positions = new List<Vec2>();
+			_dustPositions = new List<Vec2>();
+			_fogPositions = new List<Vec2>();
 			_weatherEventPositions = new List<Vec3>();
 			_weatherEventTimes = new List<CampaignTime>();
 		}
@@ -44,9 +45,28 @@ namespace RealisticWeather.Behaviors
 
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
-			for (int i = 0; i < Campaign.Current.MapSceneWrapper.GetNumberOfNavigationMeshFaces(); i++)
+			IMapScene mapSceneWrapper = Campaign.Current.MapSceneWrapper;
+
+			for (int i = 0; i < mapSceneWrapper.GetNumberOfNavigationMeshFaces(); i++)
 			{
-				_positions.Add(Campaign.Current.MapSceneWrapper.GetNavigationMeshCenterPosition(new PathFaceRecord(i, -1, -1)));
+				Vec2 position = mapSceneWrapper.GetNavigationMeshCenterPosition(i);
+				CampaignVec2 positionOnLand = new CampaignVec2(position, true), positionOnSea = new CampaignVec2(position, false);
+
+				if (positionOnLand.IsValid())
+				{
+					if (mapSceneWrapper.GetTerrainTypeAtPosition(positionOnLand) == TerrainType.Desert)
+					{
+						_dustPositions.Add(position);
+					}
+					else if (mapSceneWrapper.GetTerrainTypeAtPosition(positionOnLand) == TerrainType.Forest)
+					{
+						_fogPositions.Add(position);
+					}
+				}
+				else if (positionOnSea.IsValid() && mapSceneWrapper.GetTerrainTypeAtPosition(positionOnSea) == TerrainType.CoastalSea)
+				{
+					_fogPositions.Add(position);
+				}
 			}
 		}
 
@@ -66,8 +86,6 @@ namespace RealisticWeather.Behaviors
 
 		private void OnHourlyTick()
 		{
-			IMapScene mapSceneWrapper = Campaign.Current.MapSceneWrapper;
-
 			for (int i = 0; i < _weatherEventPositions.Count; i++)
 			{
 				// Despawn weather events on the campaign map with a 5% chance for every hour of the weather event's lifetime.
@@ -81,7 +99,7 @@ namespace RealisticWeather.Behaviors
 			// Spawn dust storms on the campaign map with a 10% chance.
 			if (MBRandom.RandomFloat < 0.1f)
 			{
-				Vec2 position = _positions.GetRandomElementWithPredicate(p => mapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Desert);
+				Vec2 position = _dustPositions.GetRandomElement();
 
 				if (position != Vec2.Zero)
 				{
@@ -94,7 +112,7 @@ namespace RealisticWeather.Behaviors
 			// Spawn fog banks on the campaign map with a 20% chance.
 			if (MBRandom.RandomFloat < 0.2f)
 			{
-				Vec2 position = _positions.GetRandomElementWithPredicate(p => mapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, true)) == TerrainType.Forest || mapSceneWrapper.GetTerrainTypeAtPosition(new CampaignVec2(p, false)) == TerrainType.CoastalSea);
+				Vec2 position = _fogPositions.GetRandomElement();
 
 				if (position != Vec2.Zero)
 				{
