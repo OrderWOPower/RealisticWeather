@@ -98,13 +98,13 @@ namespace RealisticWeather.Behaviors
 
 				if (rainDensity > 0)
 				{
-					Vec3 sunColor = new Vec3(255, 255, 255);
-					float sunAltitude = (50 * MathF.Cos(MathF.PI * scene.TimeOfDay / 6)) + 50, sunIntensity = (1 - rainDensity) / 1000;
-
 					scene.SetRainDensity(rainDensity);
 
 					if (!(gameType is Campaign))
 					{
+						Vec3 sunColor = new Vec3(255, 255, 255);
+						float sunAltitude = (50 * MathF.Cos(MathF.PI * scene.TimeOfDay / 6)) + 50, sunIntensity = (1 - rainDensity) / 1000;
+
 						// Decrease the sun intensity according to rain density.
 						scene.SetSun(ref sunColor, sunAltitude, 0, sunIntensity);
 					}

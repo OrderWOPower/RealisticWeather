@@ -10,7 +10,7 @@ namespace RealisticWeather.GameModels
 {
 	public class RealisticWeatherPartySpeedModel : PartySpeedModel
 	{
-		private static readonly TextObject _dustText = new TextObject("{=RealisticWeather53}Dust storm", null);
+		private static readonly TextObject _dustText = new TextObject("{=RealisticWeather53}Dust Storm", null);
 
 		private readonly PartySpeedModel _model;
 
