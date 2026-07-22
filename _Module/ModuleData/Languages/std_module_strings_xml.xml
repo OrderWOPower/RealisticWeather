@@ -54,8 +54,8 @@
     <string id="RealisticWeather48" text="Multiplier for dust effect on RBM stamina. Default is 1.0." />
     <string id="RealisticWeather49" text="Hide in Free Camera Mode" />
     <string id="RealisticWeather50" text="Hide rain, snow and dust storms in RTS Camera's free camera mode. Weather effects will still apply. Disabled by default." />
-    <string id="RealisticWeather51" text="Light rain/snow" />
-    <string id="RealisticWeather52" text="Heavy rain/snow" />
-    <string id="RealisticWeather53" text="Dust storm" />
+    <string id="RealisticWeather51" text="Light Rain/Snow" />
+    <string id="RealisticWeather52" text="Heavy Rain/Snow" />
+    <string id="RealisticWeather53" text="Dust Storm" />
   </strings>
 </base>
