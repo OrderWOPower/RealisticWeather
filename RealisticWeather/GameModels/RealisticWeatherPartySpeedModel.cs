@@ -41,5 +41,7 @@ namespace RealisticWeather.GameModels
 		}
 
 		public override ExplainedNumber CalculateBaseSpeed(MobileParty party, bool includeDescriptions = false, int additionalTroopOnFootCount = 0, int additionalTroopOnHorseCount = 0) => _model.CalculateBaseSpeed(party, includeDescriptions, additionalTroopOnFootCount, additionalTroopOnHorseCount);
+
+		public override int GetSkeletalCrewCount(MobileParty party) => _model.GetSkeletalCrewCount(party);
 	}
 }

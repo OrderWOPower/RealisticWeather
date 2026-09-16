@@ -3,6 +3,7 @@ using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
@@ -66,5 +67,9 @@ namespace RealisticWeather.GameModels
 		public override float GetPartySeeingRangeBase(MobileParty party) => _model.GetPartySeeingRangeBase(party);
 
 		public override float GetPartySpottingRatioForMainPartySeeingRange(MobileParty party) => _model.GetPartySpottingRatioForMainPartySeeingRange(party);
+
+		public override void GetMobilePartyVisibilityAndInspectedState(MobileParty mobileParty, Vec2[] points, float seeingRange, out bool isVisible, out bool isInspected, out bool isDistanceDependent) => _model.GetMobilePartyVisibilityAndInspectedState(mobileParty, points, seeingRange, out isVisible, out isInspected, out isDistanceDependent);
+
+		public override void GetSettlementInspectedState(Settlement settlement, Vec2[] points, float seeingRange, out bool isInspected, out bool isDistanceDependent) => _model.GetSettlementInspectedState(settlement, points, seeingRange, out isInspected, out isDistanceDependent);
 	}
 }
