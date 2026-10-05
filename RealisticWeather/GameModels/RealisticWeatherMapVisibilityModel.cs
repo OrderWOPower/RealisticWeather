@@ -68,8 +68,10 @@ namespace RealisticWeather.GameModels
 
 		public override float GetPartySpottingRatioForMainPartySeeingRange(MobileParty party) => _model.GetPartySpottingRatioForMainPartySeeingRange(party);
 
-		public override void GetMobilePartyVisibilityAndInspectedState(MobileParty mobileParty, Vec2[] points, float seeingRange, out bool isVisible, out bool isInspected, out bool isDistanceDependent) => _model.GetMobilePartyVisibilityAndInspectedState(mobileParty, points, seeingRange, out isVisible, out isInspected, out isDistanceDependent);
+		public override void GetMobilePartyVisibilityAndInspectedState(MobileParty mobileParty, Vec2[] points, float seeingRange, out bool isVisible, out bool isInspected) => _model.GetMobilePartyVisibilityAndInspectedState(mobileParty, points, seeingRange, out isVisible, out isInspected);
 
 		public override void GetSettlementInspectedState(Settlement settlement, Vec2[] points, float seeingRange, out bool isInspected, out bool isDistanceDependent) => _model.GetSettlementInspectedState(settlement, points, seeingRange, out isInspected, out isDistanceDependent);
+
+		public override bool IsVisibilityPersistent(MobileParty mobileParty) => _model.IsVisibilityPersistent(mobileParty);
 	}
 }
