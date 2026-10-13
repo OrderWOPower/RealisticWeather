@@ -1,6 +1,6 @@
-﻿using SandBox;
+﻿using System.Collections.Generic;
+using SandBox;
 using SandBox.View.Map;
-using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;

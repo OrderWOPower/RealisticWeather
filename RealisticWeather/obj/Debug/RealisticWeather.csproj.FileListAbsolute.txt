@@ -1,0 +1,14 @@
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\RealisticWeather\bin\Win64_Shipping_Client\RealisticWeather.dll
+C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\RealisticWeather\bin\Win64_Shipping_Client\RealisticWeather.pdb
+C:\Users\Valarauko\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.csproj.AssemblyReference.cache
+C:\Users\Valarauko\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.csproj.CoreCompileInputs.cache
+C:\Users\Valarauko\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.csproj.CopyComplete
+C:\Users\Valarauko\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.dll
+C:\Users\Valarauko\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.pdb
+C:\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.csproj.AssemblyReference.cache
+C:\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.csproj.CoreCompileInputs.cache
+C:\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.dll
+C:\source\repos\RealisticWeather\RealisticWeather\obj\Debug\RealisticWeather.pdb
+C:\source\repos\RealisticWeather\RealisticWeather\obj\Debug\Realisti.C407762C.Up2Date
+D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\RealisticWeather\bin\Win64_Shipping_Client\RealisticWeather.dll
+D:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\RealisticWeather\bin\Win64_Shipping_Client\RealisticWeather.pdb

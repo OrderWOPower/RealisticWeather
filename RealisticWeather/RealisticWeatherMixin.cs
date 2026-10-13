@@ -1,8 +1,8 @@
-﻿using Bannerlord.UIExtenderEx.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.ViewModels;
 using RealisticWeather.ViewModels;
-using System;
-using System.Collections.Generic;
 using TaleWorlds.Core.ViewModelCollection.Selector;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
