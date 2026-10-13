@@ -20,9 +20,10 @@ namespace RealisticWeather.Behaviors
 
 		public override void AfterStart()
 		{
+			RealisticWeatherManager manager = RealisticWeatherManager.Current;
 			Scene scene = Mission.Scene;
 
-			RealisticWeatherManager.Current.SetDust(false);
+			manager.SetDust(false);
 
 			if (!scene.IsAtmosphereIndoor)
 			{
@@ -34,7 +35,7 @@ namespace RealisticWeather.Behaviors
 				if (gameType is Campaign)
 				{
 					MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.GetPosition2D);
-					Vec3 weatherEventPosition = RealisticWeatherManager.Current.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.DistanceSquared(MobileParty.MainParty.GetPosition2D) <= 400f);
+					Vec3 weatherEventPosition = manager.WeatherEventPositions.FirstOrDefault(p => p.AsVec2.DistanceSquared(MobileParty.MainParty.GetPosition2D) <= 400f);
 					RealisticWeatherSettings settings = RealisticWeatherSettings.Instance;
 
 					if (weatherEventInPosition == MapWeatherModel.WeatherEvent.LightRain)
@@ -91,9 +92,9 @@ namespace RealisticWeather.Behaviors
 				}
 				else if (gameType is CustomGame || gameType.GetType() == AccessTools.TypeByName("NavalCustomGame"))
 				{
-					rainDensity = RealisticWeatherManager.Current.RainDensity;
-					fogDensity = RealisticWeatherManager.Current.FogDensity;
-					hasDust = RealisticWeatherManager.Current.FogDensity == 0;
+					rainDensity = manager.RainDensity;
+					fogDensity = manager.FogDensity;
+					hasDust = manager.FogDensity == 0;
 				}
 
 				if (rainDensity > 0)
@@ -131,7 +132,7 @@ namespace RealisticWeather.Behaviors
 					scene.SetSkyBrightness((MathF.Pow(2, scene.TimeOfDay < 12 ? scene.TimeOfDay : 24 - scene.TimeOfDay) - 1) / 10);
 					// Apply the "Aserai Harsh" color grade.
 					scene.SetSceneColorGradeIndex(23);
-					RealisticWeatherManager.Current.SetDust(true);
+					manager.SetDust(true);
 
 					_dustSound = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("dust_storm"), scene);
 					// Play the dust storm ambient sound.
