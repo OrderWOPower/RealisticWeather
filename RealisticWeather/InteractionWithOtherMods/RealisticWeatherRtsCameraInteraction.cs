@@ -3,10 +3,10 @@ using HarmonyLib;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 
-namespace RealisticWeather
+namespace RealisticWeather.InteractionWithOtherMods
 {
 	[HarmonyPatch]
-	public class RealisticWeatherCameraLogic
+	public class RealisticWeatherRtsCameraInteraction
 	{
 		private static MethodBase TargetMethod() => AccessTools.Method(AccessTools.TypeByName("SwitchFreeCameraLogic"), "SwitchCamera");
 

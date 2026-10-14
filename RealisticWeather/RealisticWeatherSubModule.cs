@@ -5,6 +5,7 @@ using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using RealisticWeather.Behaviors;
 using RealisticWeather.GameModels;
+using RealisticWeather.InteractionWithOtherMods;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
@@ -21,7 +22,7 @@ namespace RealisticWeather
 	public class RealisticWeatherSubModule : MBSubModuleBase
 	{
 		private Harmony _harmony;
-		private Type _typeofStance;
+		private MethodBase _reduceStaminaMethod;
 
 		protected override void OnSubModuleLoad()
 		{
@@ -61,12 +62,12 @@ namespace RealisticWeather
 				ScreenManager.OnPushScreen += OnScreenManagerPushScreen;
 			}
 
-			_typeofStance = AccessTools.TypeByName("RBMAI.Stance");
+			_reduceStaminaMethod = AccessTools.Method(AccessTools.TypeByName("RBMStance.Stance"), "reduceStamina");
 
 			// Check whether RBM is loaded.
-			if (_typeofStance != null)
+			if (_reduceStaminaMethod != null)
 			{
-				_harmony.Patch(AccessTools.Method(_typeofStance, "reduceStamina"), prefix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherStance), "Prefix")));
+				_harmony.Patch(_reduceStaminaMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(RealisticWeatherRbmInteraction), "Prefix")));
 			}
 		}
 
@@ -74,9 +75,9 @@ namespace RealisticWeather
 
 		public override void OnGameEnd(Game game)
 		{
-			if (_typeofStance != null)
+			if (_reduceStaminaMethod != null)
 			{
-				_harmony.Unpatch(AccessTools.Method(_typeofStance, "reduceStamina"), AccessTools.Method(typeof(RealisticWeatherStance), "Prefix"));
+				_harmony.Unpatch(_reduceStaminaMethod, AccessTools.Method(typeof(RealisticWeatherRbmInteraction), "Prefix"));
 			}
 		}
 
